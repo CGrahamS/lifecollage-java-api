@@ -14,16 +14,15 @@ public class HealthCheckResource {
 
     @GET()
     @Produces("application/json")
-    @SuppressWarnings(value="OBL_UNSATISFIED_OBLIGATION")
+    @SuppressWarnings("OBL_UNSATISFIED_OBLIGATION")
     public Response check() {
 
         logger.debug("HEALTH CHECK HAS BEEN STARTED");
-//
+
 //        String email = null;
 //        MySQL db = new MySQL();
-//        String sql = "SELECT email FROM application_user WHERE active = TRUE LIMIT 1";
 //        try {
-//            db.setpStmt(db.getConn().prepareStatement(sql));
+//            db.setpStmt(db.getConn().prepareStatement("SELECT email FROM application_user WHERE active = TRUE LIMIT 1"));
 //            db.setRs(db.getpStmt().executeQuery());
 //            while (db.getRs().next()) {
 //                email = db.getRs().getString(1);
@@ -33,6 +32,7 @@ public class HealthCheckResource {
 //        }
 //
 //        db.cleanUp();
+//
 //        if (CustomValidator.isBlank(email)) {
 //            //UNABLE TO GET A USER FROM DATABASE
 //            logger.error("HEALTH CHECK FAILED ::: UNABLE TO GET A USER EMAIL FROM DATABASE");

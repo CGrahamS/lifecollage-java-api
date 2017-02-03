@@ -28,19 +28,20 @@ public class ObjectMapper {
             object.setFirstName(rs.getString("first_name"));
             object.setLastName(rs.getString("last_name"));
             object.setEmail(rs.getString("email"));
+            object.setUsername(rs.getString("username"));
 
             //don't display password information for any user ... EVER!
 
             object.setCreated(rs.getString("created"));
             object.setUpdated(rs.getString("updated"));
 
-            if (rs.getString("roles") != null) {
-                object.setRoles(Arrays.asList(rs.getString("roles").split("\\|\\|\\|")));
-            }
-
-            if (rs.getString("tags") != null) {
-                object.setStringTags(Arrays.asList(rs.getString("tags").split("\\|\\|\\|")));
-            }
+//            if (rs.getString("roles") != null) {
+//                object.setRoles(Arrays.asList(rs.getString("roles").split("\\|\\|\\|")));
+//            }
+//
+//            if (rs.getString("tags") != null) {
+//                object.setStringTags(Arrays.asList(rs.getString("tags").split("\\|\\|\\|")));
+//            }
 
         } catch (SQLException ex) {
             logger.error("UNABLE TO GET APPLICATION USER FROM THE RESULT SET ", ex);

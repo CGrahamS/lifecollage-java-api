@@ -74,7 +74,6 @@ public class Authentication implements Serializable {
         this.setUserId(user.getId());
         this.setName(user.getFirstName() + " " + user.getLastName());
         this.setEmail(user.getEmail());
-        this.setRoles(user.getRoles());
         return this;
     }
 

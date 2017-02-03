@@ -12,7 +12,7 @@
             <param-value>
                 io.swagger.jaxrs.json,
                 io.swagger.jaxrs.listing,
-                com.brightlineeating.api
+                com.krashidbuilt.api
             </param-value>
         </init-param>
         <!--<init-param>-->
