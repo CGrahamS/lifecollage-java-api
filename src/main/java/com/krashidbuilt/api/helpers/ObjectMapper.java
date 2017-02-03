@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,14 +33,6 @@ public class ObjectMapper {
 
             object.setCreated(rs.getString("created"));
             object.setUpdated(rs.getString("updated"));
-
-//            if (rs.getString("roles") != null) {
-//                object.setRoles(Arrays.asList(rs.getString("roles").split("\\|\\|\\|")));
-//            }
-//
-//            if (rs.getString("tags") != null) {
-//                object.setStringTags(Arrays.asList(rs.getString("tags").split("\\|\\|\\|")));
-//            }
 
         } catch (SQLException ex) {
             logger.error("UNABLE TO GET APPLICATION USER FROM THE RESULT SET ", ex);

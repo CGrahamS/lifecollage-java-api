@@ -4,6 +4,7 @@ import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.MySQL;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 /**
  * Created by Ben Kauffman on 1/15/2017.
  */
+@SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
 public final class ApplicationUserData {
 
     private static Logger logger = LogManager.getLogger();

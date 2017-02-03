@@ -3,14 +3,14 @@ cd ../
 #exit the script if any errors occur
 set -e
 
-name=krashidbuilt-api-prod
+name=krashidbuilt-java-api
 host=$name.krashidbuilt.net
-email=ben@krashidbuilt.com
+email=ben.kauffman@krashidbuilt.com
 
 # DEPLOY PRODUCTION CONTAINER
 
 # Build image for production API
-docker build --no-cache=true -t $name .
+docker build --no-cache=true -t $name --file Dockerfile .
 
 # Kill and delete the current docker container
 set +e

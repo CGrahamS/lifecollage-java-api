@@ -14,7 +14,7 @@ RUN pwd
 RUN ./gradlew clean test integrationTest -Penvironment=integration-test
 
 #set the entry point to launch the app without any tests (they should have been ran when the image was built)
-ENTRYPOINT ["./gradlew", "clean", "build", "-x", "test", "-x", "checkStyleMain", "-x", "pmdMain", "-x", "findBugsMain", "jettyRun", "-Penvironment=prod"]
+ENTRYPOINT ["./gradlew", "clean", "build", "-x", "test", "-x", "checkStyleMain", "-x", "pmdMain", "-x", "findBugsMain", "jettyRun"]
 EXPOSE 8080
 
 
