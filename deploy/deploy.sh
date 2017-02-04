@@ -3,9 +3,9 @@ cd ../
 #exit the script if any errors occur
 set -e
 
-name=krashidbuilt-java-api
-host=$name.krashidbuilt.net
-email=ben.kauffman@krashidbuilt.com
+name=lifecollage-java-api
+host=int-feb-17.developmentnow.net
+email=cgrahamstevenson@gmail.com
 
 # DEPLOY PRODUCTION CONTAINER
 
@@ -24,7 +24,7 @@ docker run -d \
   -e "LETSENCRYPT_HOST=$host" \
   -e "LETSENCRYPT_EMAIL=$email" \
   --restart always \
-  -v /home/ec2-user/logs/$name:/usr/dev/krashidbuilt-java-api/logs \
+  -v /home/ec2-user/logs/$name:/usr/dev/lifecollage-java-api/logs \
   $name
 
 

@@ -18,7 +18,7 @@ public class ApplicationUserResource {
     private static Logger logger = LogManager.getLogger();
 
 
-    //CREATE
+    //GET USER
     @GET()
     @Path("{userId}")
     @Produces("application/json")

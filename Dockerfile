@@ -5,8 +5,8 @@ RUN echo THIS DOCKER CONTAINER IS FOR PRODUCTION USE ONLY
 # COPY java application to image
 RUN mkdir /usr/dev
 WORKDIR /usr/dev
-COPY . /usr/dev/krashidbuilt-java-api/
-WORKDIR /usr/dev/krashidbuilt-java-api/
+COPY . /usr/dev/lifecollage-java-api/
+WORKDIR /usr/dev/lifecollage-java-api/
 
 RUN pwd
 
@@ -23,10 +23,10 @@ EXPOSE 8080
 ####################################################################################################
 ####################################################################################################
 # BUILD THE DOCKER IMAGE
-# docker build --no-cache=true -t krashidbuilt-java-api .
+# docker build --no-cache=true -t lifecollage-java-api .
 #
 # RUN THE IMAGE IN A CONTAINER
-# docker run -it --rm -p 8888:8080 krashidbuilt-java-api
+# docker run -it --rm -p 8888:8080 lifecollage-java-api
 ####################################################################################################
 ####################################################################################################
 ####################################################################################################

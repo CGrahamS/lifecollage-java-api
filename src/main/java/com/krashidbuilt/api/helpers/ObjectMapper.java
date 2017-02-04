@@ -1,6 +1,7 @@
 package com.krashidbuilt.api.helpers;
 
 import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.Collage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +37,20 @@ public class ObjectMapper {
 
         } catch (SQLException ex) {
             logger.error("UNABLE TO GET APPLICATION USER FROM THE RESULT SET ", ex);
+        }
+
+        return object;
+    }
+
+    public static Collage collage(ResultSet rs) throws SQLException {
+        Collage object = new Collage();
+
+        try {
+            object.setId(rs.getInt("id"));
+            object.setTitle(rs.getString("title"));
+            object.setCreated(rs.getString("created"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET COLLAGE FROM RESULT SET", ex);
         }
 
         return object;
