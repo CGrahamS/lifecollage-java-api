@@ -4,7 +4,7 @@ cd ../
 set -e
 
 name=lifecollage-java-api
-host=int-feb-17.developmentnow.net
+host=int-feb-17-api.developmentnow.net
 email=cgrahamstevenson@gmail.com
 
 # DEPLOY PRODUCTION CONTAINER
