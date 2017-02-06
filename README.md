@@ -1,6 +1,6 @@
 #KrashidBuilt - Template
 
-KrashidBuilt Java Jetty Gradle Microservice
+Lifecollage API Java Jetty Gradle Microservice
 =========================================
 
 This is a simple REST api to interact with user data through CRUD
