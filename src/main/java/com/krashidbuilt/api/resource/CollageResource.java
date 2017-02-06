@@ -54,4 +54,28 @@ public class CollageResource {
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         return Response.created(builder.build()).entity(out).build();
     }
+
+    @GET()
+    @Path("userId")
+    @Produces("application/json")
+    @ApiOperation(value = "Retrieve all collages that belong to a user",
+        notes = "Returns all collages that belong to the specified user id",
+        response = Collage.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "Collage not found", response = Error.class)
+    })
+    @Consumes("application/json")
+    public Response getCollage(@PathParam("userId") int userId, @Context UriInfo uriInfo) {
+        logger.debug("Get collager by use id {} requested at collage resource", userId);
+        Collage collage = CollageData.getCollage(userId);
+
+        if (!collage.isValid()) {
+            return Response.status(404).build();
+        }
+
+        //return collage
+        logger.debug("Collage owned by user id:{} found in the database with the title:{}", userId, collage.getTitle());
+        return Response.ok(collage).build();
+    }
 }

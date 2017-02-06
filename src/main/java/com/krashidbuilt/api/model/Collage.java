@@ -39,6 +39,10 @@ public class Collage implements Serializable {
         this.created = created;
     }
 
+    public boolean isValid() {
+        return id >= 1;
+    }
+
     @Override
     public String toString() {
         return new Gson().toJson(this);
