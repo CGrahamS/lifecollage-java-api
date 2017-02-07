@@ -3,11 +3,14 @@ package com.krashidbuilt.api.data;
 import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.ThrowableError;
+import com.krashidbuilt.api.service.Encryption;
 import com.krashidbuilt.api.service.MySQL;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 /**
@@ -36,7 +39,7 @@ public final class ApplicationUserData {
 
             db.getpStmt().setInt(1, 0);
             db.getpStmt().setString(2, in.getEmail());
-            db.getpStmt().setString(3, in.getPassword());
+            db.getpStmt().setString(3, Encryption.createHash(in.getPassword()));
             db.getpStmt().setString(4, in.getFirstName());
             db.getpStmt().setString(5, in.getLastName());
             db.getpStmt().setString(6, in.getUsername());
@@ -45,6 +48,8 @@ public final class ApplicationUserData {
 
         } catch (SQLException e) {
             logger.error("UNABLE TO CREATE USER", e);
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+            logger.error("UNABLE TO CREATE USER, PASSWORD ENCRYPTION ERROR");
         }
 
         db.cleanUp();

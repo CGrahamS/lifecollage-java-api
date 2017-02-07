@@ -2,36 +2,40 @@ package com.krashidbuilt.api.resource;
 
 import com.krashidbuilt.api.data.ApplicationUserData;
 import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.Authentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ws.rs.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
-@Path("public/user")
-@Api(value = "public/user", description = "Interact with the user object", tags = "user")
+@Path("private/user")
+@Api(value = "private/user", description = "Interact with the user object", tags = "user")
 public class ApplicationUserResource {
     private static Logger logger = LogManager.getLogger();
 
 
     //GET USER
     @GET()
-    @Path("{userId}")
     @Produces("application/json")
     @ApiOperation(value = "Get an existing user",
             notes = "Returns the user if it matches the request",
             response = ApplicationUser.class
     )
     @Consumes("application/json")
-    public Response getById(@PathParam("userId") int userId, @Context UriInfo uriInfo) {
+    public Response getById(@Context HttpServletRequest servletRequest) {
 
-        logger.debug("Get user by id {} requested at user resource", userId);
+        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
+        logger.debug("Get user by id {} requested at user resource", auth.getUserId());
 
-        ApplicationUser user = ApplicationUserData.getById(userId);
+        ApplicationUser user = ApplicationUserData.getById(auth.getUserId());
 
         if (!user.isValid()) {
             return Response.status(404).build();
