@@ -81,10 +81,17 @@ public class CollageData {
 
         MySQL db = new MySQL();
 
-        String sql = "SELECT * FROM collage WHERE application_user_id = ?";
+        StringBuilder sql = new StringBuilder().append("SELECT * FROM collage ");
+        if (userId >= 1) {
+            sql.append("WHERE application_user_id = ?");
+
+        }
         try {
-            db.setpStmt(db.getConn().prepareStatement(sql));
-            db.getpStmt().setInt(1, userId);
+            db.setpStmt(db.getConn().prepareStatement(sql.toString()));
+            if (userId >= 1) {
+                db.getpStmt().setInt(1, userId);
+            }
+
             db.setRs(db.getpStmt().executeQuery());
 
             collages = ObjectMapper.convertResultSetToList(db.getRs());
@@ -96,5 +103,26 @@ public class CollageData {
 
         logger.debug("GET COLLAGE BY USER ID {} END", userId);
         return collages;
+    }
+
+    public static Collage updateCollage(int collageId, String collageTitle) {
+        logger.debug("UPDATE COLLAGE WITH ID {} START", collageId);
+        MySQL db = new MySQL();
+
+        String updateSql = "UPDATE collage SET title = ? WHERE id = ?";
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(updateSql));
+            db.getpStmt().setString(1, collageTitle);
+            db.getpStmt().setInt(2, collageId);
+            db.getpStmt().executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO UPDATE COLLAGE", e);
+        }
+        db.cleanUp();
+
+        logger.debug("UPDATE COLLAGE WITH ID {} END", collageId);
+        return getCollage(collageId);
     }
 }

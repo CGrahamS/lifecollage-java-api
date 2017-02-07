@@ -56,7 +56,7 @@ public final class ApplicationUserData {
 
         logger.debug("CREATE USER END");
 
-        return in;
+        return getByEmail(in.getEmail());
     }
 
     public static ApplicationUser getById(int userId) {
