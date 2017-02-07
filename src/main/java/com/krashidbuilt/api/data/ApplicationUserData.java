@@ -71,7 +71,6 @@ public final class ApplicationUserData {
                 user = ObjectMapper.applicationUser(db.getRs());
             }
 
-
         } catch (SQLException e) {
             logger.error("UNABLE TO GET USER BY ID", e);
         }

@@ -56,18 +56,15 @@ public class CollageResource {
     }
 
     @GET()
-    @Path("userId")
+    @Path("user/{userId}")
     @Produces("application/json")
     @ApiOperation(value = "Retrieve all collages that belong to a user",
-        notes = "Returns all collages that belong to the specified user id",
+        notes = "Returns all collages that belong to the user specified by the user id",
         response = Collage.class
     )
-    @ApiResponses(value = {
-            @ApiResponse(code = 404, message = "Collage not found", response = Error.class)
-    })
     @Consumes("application/json")
     public Response getCollage(@PathParam("userId") int userId, @Context UriInfo uriInfo) {
-        logger.debug("Get collager by use id {} requested at collage resource", userId);
+        logger.debug("Get collage by user id {} requested at collage resource", userId);
         Collage collage = CollageData.getCollage(userId);
 
         if (!collage.isValid()) {

@@ -50,12 +50,12 @@ public class CollageData {
     }
 
     public static Collage getCollage(int userId) {
-        logger.debug("GET COLLAGE {} BY USER ID START", userId);
+        logger.debug("GET COLLAGE BY USER ID {} START", userId);
         Collage collage = new Collage();
 
         MySQL db = new MySQL();
 
-        String sql = "SELECT * FROM collage WHERE application_user_id = ? LIMIT 1";
+        String sql = "SELECT * FROM collage WHERE application_user_id = ?";
         try {
             db.setpStmt(db.getConn().prepareStatement(sql));
             db.getpStmt().setInt(1, userId);
@@ -71,7 +71,7 @@ public class CollageData {
         }
         db.cleanUp();
 
-        logger.debug("GET COLLAGE {} BY USER ID END", userId);
+        logger.debug("GET COLLAGE BY USER ID {} END", userId);
         return collage;
     }
 }
