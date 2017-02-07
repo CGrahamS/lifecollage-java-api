@@ -18,11 +18,9 @@ public class Authentication implements Serializable {
     private int userId;
     private String name;
     private String email;
-    private List<String> roles;
 
     public Authentication() {
         token = new ApplicationToken();
-        roles = new ArrayList<>();
     }
 
     public static Authentication fromString(String json) {
@@ -61,32 +59,12 @@ public class Authentication implements Serializable {
         this.email = email;
     }
 
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
-
     public Authentication fromUser(ApplicationUser user) {
         this.setToken(user.getApplicationToken());
         this.setUserId(user.getId());
         this.setName(user.getFirstName() + " " + user.getLastName());
         this.setEmail(user.getEmail());
         return this;
-    }
-
-    public boolean isAdmin() {
-        if (roles != null) {
-            for (String role : getRoles()) {
-                if (role.equalsIgnoreCase("admin")) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     public boolean isValid() {

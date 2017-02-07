@@ -65,12 +65,6 @@ public class PrivateFilter implements Filter {
             return;
         }
 
-        if (auth.isAdmin() && httpRequest.getRequestURL().toString().contains("/api/private/user/")) {
-            // admin's do not have access to user endpoints
-            ErrorResponse.forbidden(servletResponse);
-            return;
-        }
-
         String uuid = "[" + UUID.randomUUID().toString() + "]";
         logger.debug(uuid + " Private request made by " + auth.getName() + " started " + DateTime.nowToString());
 
