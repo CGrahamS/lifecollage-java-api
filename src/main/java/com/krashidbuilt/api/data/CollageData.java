@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
+import java.util.*;
 
 /**
  * Created by CGrahamS on 2/3/17.
@@ -31,7 +32,6 @@ public class CollageData {
         try {
             db.setpStmt(db.getConn().prepareStatement(sql));
 
-
             db.getpStmt().setInt(1, userId);
             db.getpStmt().setInt(2, 0);
             db.getpStmt().setString(3, in.getTitle());
@@ -49,16 +49,16 @@ public class CollageData {
         return in;
     }
 
-    public static Collage getCollage(int userId) {
-        logger.debug("GET COLLAGE BY USER ID {} START", userId);
+    public static Collage getCollage(int collageId) {
+        logger.debug("GET COLLAGE {} BY ID START", collageId);
         Collage collage = new Collage();
 
         MySQL db = new MySQL();
 
-        String sql = "SELECT * FROM collage WHERE application_user_id = ?";
+        String sql = "SELECT * FROM collage WHERE id = ? LIMIT 1";
         try {
             db.setpStmt(db.getConn().prepareStatement(sql));
-            db.getpStmt().setInt(1, userId);
+            db.getpStmt().setInt(1, collageId);
 
             db.setRs(db.getpStmt().executeQuery());
 
@@ -67,11 +67,34 @@ public class CollageData {
             }
 
         } catch (SQLException e) {
+            logger.error("UNABLE TO GET COLLAGE BY ID");
+        }
+        db.cleanUp();
+
+        logger.debug("GET COLLAGE {} BY ID END", collageId);
+        return collage;
+    }
+
+    public static List<HashMap<String, Object>> getCollages(int userId) {
+        logger.debug("GET COLLAGES BY USER ID {} START", userId);
+        List<HashMap<String, Object>> collages = new ArrayList<>();
+
+        MySQL db = new MySQL();
+
+        String sql = "SELECT * FROM collage WHERE application_user_id = ?";
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.getpStmt().setInt(1, userId);
+            db.setRs(db.getpStmt().executeQuery());
+
+            collages = ObjectMapper.convertResultSetToList(db.getRs());
+
+        } catch (SQLException e) {
             logger.error("UNABLE TO GET COLLAGE BY USER ID");
         }
         db.cleanUp();
 
         logger.debug("GET COLLAGE BY USER ID {} END", userId);
-        return collage;
+        return collages;
     }
 }

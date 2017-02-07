@@ -56,6 +56,21 @@ public class ObjectMapper {
         return object;
     }
 
+    public static ArrayList<Collage> collages(ResultSet rs) throws SQLException {
+        Collage object = new Collage();
+        ArrayList<Collage> collages = new ArrayList<>();
+
+        try {
+            object.setId(rs.getInt("id"));
+            object.setTitle(rs.getString("title"));
+            object.setCreated(rs.getString("created"));
+            collages.add(object);
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET COLLAGES FROM RESULT SET", ex);
+        }
+        return collages;
+    }
+
 
     public static HashMap<String, String> keyStore(ResultSet rs) throws SQLException {
         HashMap<String, String> map = new HashMap<String, String>();
