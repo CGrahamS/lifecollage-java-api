@@ -112,10 +112,12 @@ public class CollageData {
         String updateSql = "UPDATE collage SET title = ? WHERE id = ?";
 
         try {
+            logger.debug(collageTitle);
             db.setpStmt(db.getConn().prepareStatement(updateSql));
             db.getpStmt().setString(1, collageTitle);
             db.getpStmt().setInt(2, collageId);
             db.getpStmt().executeUpdate();
+
 
         } catch (SQLException e) {
             logger.error("UNABLE TO UPDATE COLLAGE", e);

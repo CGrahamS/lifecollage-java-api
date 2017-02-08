@@ -103,6 +103,9 @@ public class CollageResource {
         } else {
             logger.debug("Get collages that belong to user id {} requested at collage resource", auth.getUserId());
             collages = CollageData.getCollages(auth.getUserId());
+            if (collages.size() <= 0) {
+                return Response.status(204).build();
+            }
         }
 
         logger.debug("Collages that belong to user with id: {} found in the database", auth.getUserId());
@@ -110,7 +113,7 @@ public class CollageResource {
     }
 
     @PUT()
-    @Path("update/{collageId}")
+    @Path("update/{collageId}/{collageTitle}")
     @Produces("application/json")
     @ApiOperation(value = "Update existing collage",
             notes = "Update existing collage with id that matches the supplied id",
@@ -118,7 +121,7 @@ public class CollageResource {
     )
     @Consumes("application/json")
     public Response updateCollage(@PathParam("collageId") int collageId, @PathParam("collageTitle") String collageTitle, @Context UriInfo uriInfo) {
-        logger.debug("Update collage with id {} requested at collage resource", collageId);
+        logger.debug("Update collage with id {} title to {} requested at collage resource", collageId, collageTitle);
         Collage collage = CollageData.updateCollage(collageId, collageTitle);
 
         if (!collage.isValid()) {
