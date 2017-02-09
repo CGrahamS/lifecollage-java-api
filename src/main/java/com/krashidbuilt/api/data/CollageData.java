@@ -105,26 +105,27 @@ public class CollageData {
         return collages;
     }
 
-    public static Collage updateCollage(int collageId, String collageTitle) {
-        logger.debug("UPDATE COLLAGE WITH ID {} START", collageId);
+    public static Collage updateCollageTitle(Collage in) throws ThrowableError {
+        logger.debug("UPDATE COLLAGE WITH ID {} START", in.getId());
+
         MySQL db = new MySQL();
 
         String updateSql = "UPDATE collage SET title = ? WHERE id = ?";
 
         try {
-            logger.debug(collageTitle);
             db.setpStmt(db.getConn().prepareStatement(updateSql));
-            db.getpStmt().setString(1, collageTitle);
-            db.getpStmt().setInt(2, collageId);
-            db.getpStmt().executeUpdate();
 
+            db.getpStmt().setString(1, in.getTitle());
+            db.getpStmt().setInt(2, in.getId());
+            db.getpStmt().executeUpdate();
 
         } catch (SQLException e) {
             logger.error("UNABLE TO UPDATE COLLAGE", e);
         }
         db.cleanUp();
 
-        logger.debug("UPDATE COLLAGE WITH ID {} END", collageId);
-        return getCollage(collageId);
+        logger.debug("UPDATE COLLAGE WITH ID {} END", in.getId());
+        return getCollage(in.getId());
     }
+
 }

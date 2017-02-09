@@ -113,22 +113,27 @@ public class CollageResource {
     }
 
     @PUT()
-    @Path("update/{collageId}/{collageTitle}")
+    @Path("update/{collageId}")
     @Produces("application/json")
     @ApiOperation(value = "Update existing collage",
             notes = "Update existing collage with id that matches the supplied id",
             response = Collage.class
     )
     @Consumes("application/json")
-    public Response updateCollage(@PathParam("collageId") int collageId, @PathParam("collageTitle") String collageTitle, @Context UriInfo uriInfo) {
-        logger.debug("Update collage with id {} title to {} requested at collage resource", collageId, collageTitle);
-        Collage collage = CollageData.updateCollage(collageId, collageTitle);
+    public Response updateCollage(Collage in, @Context UriInfo uriInfo) {
+        logger.debug("Update collage with id {} title to {} requested at collage resource", in.getId());
+        Collage out;
 
-        if (!collage.isValid()) {
-            return Response.status(404).build();
+        try {
+            out = CollageData.updateCollageTitle(in);
+        } catch (ThrowableError e) {
+            logger.error("CAN'T UPDATE COLLAGE", e);
+            Error error = e.getError();
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
-        logger.debug("Collage with id {} updated", collageId);
-        return Response.ok(collage).build();
+        logger.debug("Update title of single collage at update controller" + out.toString());
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        return Response.created(builder.build()).entity(out).build();
     }
 }
