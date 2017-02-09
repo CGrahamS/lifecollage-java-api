@@ -110,10 +110,10 @@ public class CollageData {
 
         MySQL db = new MySQL();
 
-        String updateSql = "UPDATE collage SET title = ? WHERE id = ?";
+        String sql = "UPDATE collage SET title = ? WHERE id = ?";
 
         try {
-            db.setpStmt(db.getConn().prepareStatement(updateSql));
+            db.setpStmt(db.getConn().prepareStatement(sql));
 
             db.getpStmt().setString(1, in.getTitle());
             db.getpStmt().setInt(2, in.getId());
@@ -126,6 +126,25 @@ public class CollageData {
 
         logger.debug("UPDATE COLLAGE WITH ID {} END", in.getId());
         return getCollage(in.getId());
+    }
+
+    public static void deleteCollage(int collageId) throws ThrowableError {
+        logger.debug("DELETE COLLAGE WITH ID {} START", collageId);
+
+        MySQL db = new MySQL();
+
+        String sql = "DELETE FROM collage WHERE id = ?";
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+
+            db.getpStmt().setInt(1, collageId);
+            db.getpStmt().executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO DELETE COLLAGE", e);
+        }
+        logger.debug("DELETE COLLAGE WITH ID {} END", collageId);
     }
 
 }

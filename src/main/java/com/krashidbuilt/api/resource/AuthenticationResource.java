@@ -119,6 +119,5 @@ public class AuthenticationResource {
         logger.debug("Create single application user object at register controller." + out.toString());
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         return Response.created(builder.build()).entity(out).build();
-
     }
 }

@@ -136,4 +136,27 @@ public class CollageResource {
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         return Response.created(builder.build()).entity(out).build();
     }
+
+    @DELETE()
+    @Path("delete/{collageId}")
+    @Produces("application/json")
+    @ApiOperation(value = "Delete collage",
+        notes = "Delete collage with id that matches the supplied id",
+        response = Collage.class
+    )
+    @Consumes("application/json")
+    public Response deleteCollage(@PathParam("collageId") int collageId, @Context UriInfo uriInfo) {
+        logger.debug("Delete collage with id {} requested at collage resource", collageId);
+
+        try {
+            CollageData.deleteCollage(collageId);
+        } catch (ThrowableError e) {
+            logger.error("CAN'T DELETE COLLAGE", e);
+            Error error = e.getError();
+            return Response.status(error.getStatusCode()).entity(error).build();
+        }
+
+        logger.debug("Delete single collage at delete controller");
+        return Response.status(200).build();
+    }
 }
