@@ -49,6 +49,7 @@ public class ObjectMapper {
             object.setId(rs.getInt("id"));
             object.setTitle(rs.getString("title"));
             object.setCreated(rs.getString("created"));
+            object.setUserId(rs.getInt("application_user_id"));
         } catch (SQLException ex) {
             logger.error("UNABLE TO GET COLLAGE FROM RESULT SET", ex);
         }

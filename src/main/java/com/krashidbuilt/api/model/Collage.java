@@ -14,6 +14,7 @@ public class Collage implements Serializable {
     private int id;
     private String title;
     private String created;
+    private int userId;
 
     public int getId() {
         return id;
@@ -37,6 +38,14 @@ public class Collage implements Serializable {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public boolean isValid() {

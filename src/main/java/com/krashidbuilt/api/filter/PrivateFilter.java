@@ -40,6 +40,8 @@ public class PrivateFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
+        logger.debug("WE ARE HERE");
+
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 
         Authentication auth = new Authentication();

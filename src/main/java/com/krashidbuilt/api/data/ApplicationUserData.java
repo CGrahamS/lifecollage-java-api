@@ -66,7 +66,6 @@ public final class ApplicationUserData {
 
         String sql = "SELECT * FROM application_user WHERE id = ? LIMIT 1";
         try {
-
             db.setpStmt(db.getConn().prepareStatement(sql));
             db.getpStmt().setInt(1, userId);
 

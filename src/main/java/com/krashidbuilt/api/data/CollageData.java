@@ -20,6 +20,7 @@ public class CollageData {
 
     private static Logger logger = LogManager.getLogger();
 
+    //TODO does this need a throwable error?
     public static Collage create(int userId, Collage in) throws ThrowableError {
         logger.debug("CREATE COLLAGE START");
 
@@ -105,7 +106,7 @@ public class CollageData {
         return collages;
     }
 
-    public static Collage updateCollageTitle(Collage in) throws ThrowableError {
+    public static Collage updateCollageTitle(Collage in) {
         logger.debug("UPDATE COLLAGE WITH ID {} START", in.getId());
 
         MySQL db = new MySQL();
@@ -128,7 +129,7 @@ public class CollageData {
         return getCollage(in.getId());
     }
 
-    public static void deleteCollage(int collageId) throws ThrowableError {
+    public static void deleteCollage(int collageId) {
         logger.debug("DELETE COLLAGE WITH ID {} START", collageId);
 
         MySQL db = new MySQL();

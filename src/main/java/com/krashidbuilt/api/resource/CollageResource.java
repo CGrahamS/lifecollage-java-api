@@ -31,7 +31,6 @@ public class CollageResource {
     private static Logger logger = LogManager.getLogger();
 
     @POST()
-    @Path("create")
     @Produces("application/json")
     @ApiOperation(value = "Create new collage",
             notes = "Returns the newly create collage if successfully created",
@@ -48,6 +47,7 @@ public class CollageResource {
 
         Collage out;
 
+        //TODO Does this need a throwable?
         try {
             out = CollageData.create(auth.getUserId(), in);
         } catch (ThrowableError ex) {
@@ -86,8 +86,8 @@ public class CollageResource {
     @GET()
     @Path("user")
     @Produces("application/json")
-    @ApiOperation(value = "Retrieve all collages that belong to a user",
-            notes = "Return all collages that belong to the user with an id that matches the supplied id",
+    @ApiOperation(value = "Retrieve all collages that belong to a user or all collages",
+            notes = "Return all collages that belong to the user with an id that matches the supplied id or return all collages",
             response = Collage.class
     )
     @Consumes("application/json")
@@ -103,9 +103,10 @@ public class CollageResource {
         } else {
             logger.debug("Get collages that belong to user id {} requested at collage resource", auth.getUserId());
             collages = CollageData.getCollages(auth.getUserId());
-            if (collages.size() <= 0) {
-                return Response.status(204).build();
-            }
+        }
+
+        if (collages.size() <= 0) {
+            return Response.status(200).build();
         }
 
         logger.debug("Collages that belong to user with id: {} found in the database", auth.getUserId());
@@ -113,7 +114,6 @@ public class CollageResource {
     }
 
     @PUT()
-    @Path("update/{collageId}")
     @Produces("application/json")
     @ApiOperation(value = "Update existing collage",
             notes = "Update existing collage with id that matches the supplied id",
@@ -121,16 +121,14 @@ public class CollageResource {
     )
     @Consumes("application/json")
     public Response updateCollage(Collage in, @Context UriInfo uriInfo) {
-        logger.debug("Update collage with id {} title to {} requested at collage resource", in.getId());
+        logger.debug("Update collage with id {} title to {} requested at collage resource", in.getId(), in.getTitle());
         Collage out;
 
-        try {
-            out = CollageData.updateCollageTitle(in);
-        } catch (ThrowableError e) {
-            logger.error("CAN'T UPDATE COLLAGE", e);
-            Error error = e.getError();
-            return Response.status(error.getStatusCode()).entity(error).build();
+        if (!in.isValid()) {
+            return Response.status(404).build();
         }
+
+        out = CollageData.updateCollageTitle(in);
 
         logger.debug("Update title of single collage at update controller" + out.toString());
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
@@ -138,22 +136,33 @@ public class CollageResource {
     }
 
     @DELETE()
-    @Path("delete/{collageId}")
+    @Path("{collageId}")
     @Produces("application/json")
     @ApiOperation(value = "Delete collage",
-        notes = "Delete collage with id that matches the supplied id",
-        response = Collage.class
+        notes = "Delete collage with id that matches the supplied id"
     )
-    @Consumes("application/json")
-    public Response deleteCollage(@PathParam("collageId") int collageId, @Context UriInfo uriInfo) {
-        logger.debug("Delete collage with id {} requested at collage resource", collageId);
+    @ApiResponses(value = {
+            @ApiResponse(code = 403, message = "You are not allowed to delete other users collages", response = Error.class),
+            @ApiResponse(code = 404, message = "Collage not found", response = Error.class),
+            @ApiResponse(code = 200, message = "Collage successfully deleted", response = Error.class)
 
-        try {
+    })
+    @Consumes("application/json")
+    public Response deleteCollage(@PathParam("collageId") int collageId,
+                                  @Context UriInfo uriInfo,
+                                  @Context HttpServletRequest servletRequest) {
+        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
+        logger.debug("Delete collage with id {} requested at collage resource", collageId);
+        Collage collage = CollageData.getCollage(collageId);
+
+        if (!collage.isValid()) {
+            return Response.status(404).build();
+        }
+
+        if (collage.getUserId() == auth.getUserId()) {
             CollageData.deleteCollage(collageId);
-        } catch (ThrowableError e) {
-            logger.error("CAN'T DELETE COLLAGE", e);
-            Error error = e.getError();
-            return Response.status(error.getStatusCode()).entity(error).build();
+        } else {
+            return Response.status(403).build();
         }
 
         logger.debug("Delete single collage at delete controller");

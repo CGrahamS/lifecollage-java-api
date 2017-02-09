@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 public class ApplicationUserResource {
     private static Logger logger = LogManager.getLogger();
 
-
     //GET USER
     @GET()
     @Produces("application/json")
