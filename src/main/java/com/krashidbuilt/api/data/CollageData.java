@@ -20,16 +20,13 @@ public class CollageData {
 
     private static Logger logger = LogManager.getLogger();
 
-    //TODO does this need a throwable error?
     public static Collage create(int userId, Collage in) throws ThrowableError {
         logger.debug("CREATE COLLAGE START");
 
         MySQL db = new MySQL();
 
-        String sql = "INSERT INTO collage (application_user_id, id, title, created)\n" +
-                "VALUES (?, ?, ?, NOW())\n" +
-                "ON DUPLICATE KEY UPDATE\n" +
-                "   title = VALUES(title)";
+        String sql = "INSERT INTO collage (application_user_id, id, title)\n" +
+                "VALUES (?, ?, ?)";
         try {
             db.setpStmt(db.getConn().prepareStatement(sql));
 

@@ -47,7 +47,6 @@ public class CollageResource {
 
         Collage out;
 
-        //TODO Does this need a throwable?
         try {
             out = CollageData.create(auth.getUserId(), in);
         } catch (ThrowableError ex) {

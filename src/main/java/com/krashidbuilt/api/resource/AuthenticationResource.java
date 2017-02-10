@@ -114,7 +114,6 @@ public class AuthenticationResource {
             Error error = ex.getError();
             return Response.status(error.getStatusCode()).entity(error).build();
         }
-
         //return newly created user
         logger.debug("Create single application user object at register controller." + out.toString());
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();

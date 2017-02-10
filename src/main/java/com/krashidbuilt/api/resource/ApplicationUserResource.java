@@ -40,6 +40,5 @@ public class ApplicationUserResource {
         //return user
         logger.debug("User {} found in the database and identified as {} {}.", user.getId(), user.getFirstName(), user.getLastName());
         return Response.ok(user).build();
-
     }
 }

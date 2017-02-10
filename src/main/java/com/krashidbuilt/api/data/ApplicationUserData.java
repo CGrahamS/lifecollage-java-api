@@ -2,6 +2,7 @@ package com.krashidbuilt.api.data;
 
 import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.Error;
 import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.Encryption;
 import com.krashidbuilt.api.service.MySQL;
@@ -27,12 +28,7 @@ public final class ApplicationUserData {
         MySQL db = new MySQL();
 
         String sql = "INSERT INTO application_user (id, email, password, first_name, last_name, username)\n" +
-                "VALUES (?, ?, ?, ?, ?, ?)\n" +
-                "ON DUPLICATE KEY UPDATE\n" +
-                "  password = VALUES(password),\n" +
-                "  first_name = VALUES(first_name),\n" +
-                "  last_name = VALUES(last_name),\n" +
-                "  username = VALUES(username)";
+                "VALUES (?, ?, ?, ?, ?, ?)\n";
         try {
 
             db.setpStmt(db.getConn().prepareStatement(sql));
@@ -48,6 +44,11 @@ public final class ApplicationUserData {
 
         } catch (SQLException e) {
             logger.error("UNABLE TO CREATE USER", e);
+            if(e.getMessage().contains("Duplicate entry")){
+//                String problem = e.getMessage();
+                String problem = e.getMessage().split("\'")[3];
+                throw new ThrowableError(Error.duplicate(problem));
+            }
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             logger.error("UNABLE TO CREATE USER, PASSWORD ENCRYPTION ERROR");
         }
@@ -71,7 +72,7 @@ public final class ApplicationUserData {
 
             db.setRs(db.getpStmt().executeQuery());
 
-            while (db.getRs().next()){
+            while (db.getRs().next()) {
                 user = ObjectMapper.applicationUser(db.getRs());
             }
 
@@ -98,7 +99,7 @@ public final class ApplicationUserData {
 
             db.setRs(db.getpStmt().executeQuery());
 
-            while (db.getRs().next()){
+            while (db.getRs().next()) {
                 user = ObjectMapper.applicationUser(db.getRs());
             }
 
