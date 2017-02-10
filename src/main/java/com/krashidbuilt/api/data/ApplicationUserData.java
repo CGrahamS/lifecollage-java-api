@@ -45,7 +45,6 @@ public final class ApplicationUserData {
         } catch (SQLException e) {
             logger.error("UNABLE TO CREATE USER", e);
             if(e.getMessage().contains("Duplicate entry")){
-//                String problem = e.getMessage();
                 String problem = e.getMessage().split("\'")[3];
                 throw new ThrowableError(Error.duplicate(problem));
             }

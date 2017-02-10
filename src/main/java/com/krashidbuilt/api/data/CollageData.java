@@ -82,7 +82,6 @@ public class CollageData {
         StringBuilder sql = new StringBuilder().append("SELECT * FROM collage ");
         if (userId >= 1) {
             sql.append("WHERE application_user_id = ?");
-
         }
         try {
             db.setpStmt(db.getConn().prepareStatement(sql.toString()));

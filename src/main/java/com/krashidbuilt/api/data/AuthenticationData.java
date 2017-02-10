@@ -45,7 +45,6 @@ public class AuthenticationData {
             throw new ThrowableError(error);
         }
 
-
         logger.debug("LOGIN USER " + email);
 
         ApplicationUser user = new ApplicationUser();

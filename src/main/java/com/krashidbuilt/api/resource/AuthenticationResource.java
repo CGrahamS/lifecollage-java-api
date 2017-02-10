@@ -36,7 +36,6 @@ public class AuthenticationResource {
     public Response login(@NotNull @FormParam("email") String email,
                           @NotNull @FormParam("password") String password,
                           @Context UriInfo uriInfo) {
-
         ApplicationUser user;
         try {
             user = AuthenticationData.login(email, password);
@@ -100,7 +99,8 @@ public class AuthenticationResource {
             response = ApplicationUser.class
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 422, message = "User validation failure", response = Error.class)
+            @ApiResponse(code = 422, message = "User validation failure", response = Error.class),
+            @ApiResponse(code = 409, message = "Attempt to create user with duplicate email or username", response = Error.class)
     })
     @Consumes("application/json")
     public Response register(ApplicationUser in, @Context UriInfo uriInfo) {
