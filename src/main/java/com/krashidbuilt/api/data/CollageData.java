@@ -48,7 +48,7 @@ public class CollageData {
     }
 
     public static Collage getCollage(int collageId) {
-        logger.debug("GET COLLAGE {} BY ID START", collageId);
+        logger.debug("GET COLLAGE WITH ID {} START", collageId);
         Collage collage = new Collage();
 
         MySQL db = new MySQL();
@@ -69,7 +69,7 @@ public class CollageData {
         }
         db.cleanUp();
 
-        logger.debug("GET COLLAGE {} BY ID END", collageId);
+        logger.debug("GET COLLAGE WITH ID {} END", collageId);
         return collage;
     }
 

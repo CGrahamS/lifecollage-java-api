@@ -119,15 +119,25 @@ public class CollageResource {
             response = Collage.class
     )
     @Consumes("application/json")
-    public Response updateCollage(Collage in, @Context UriInfo uriInfo) {
-        logger.debug("Update collage with id {} title to {} requested at collage resource", in.getId(), in.getTitle());
+    public Response updateCollage(Collage in, @Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
+
+        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
+        logger.debug("Update collage with id {} title to {} requested by {} at collage resource", in.getId(), in.getTitle(), auth.getUserId());
         Collage out;
+        Collage collage = CollageData.getCollage(in.getId());
 
         if (!in.isValid()) {
             return Response.status(404).build();
         }
 
-        out = CollageData.updateCollageTitle(in);
+        logger.debug("This collages user id is = {}", in.getUserId());
+        logger.debug("The authorized user id is = {}", auth.getUserId());
+
+        if (collage.getUserId() == auth.getUserId()) {
+            out = CollageData.updateCollageTitle(in);
+        } else {
+            return Response.status(403).build();
+        }
 
         logger.debug("Update title of single collage at update controller" + out.toString());
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
@@ -142,9 +152,7 @@ public class CollageResource {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 403, message = "You are not allowed to delete other users collages", response = Error.class),
-            @ApiResponse(code = 404, message = "Collage not found", response = Error.class),
-            @ApiResponse(code = 200, message = "Collage successfully deleted", response = Error.class)
-
+            @ApiResponse(code = 404, message = "Collage not found", response = Error.class)
     })
     @Consumes("application/json")
     public Response deleteCollage(@PathParam("collageId") int collageId,
