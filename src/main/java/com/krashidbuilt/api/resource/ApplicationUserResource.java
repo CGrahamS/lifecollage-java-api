@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 @Path("private/user")
 @Api(value = "private/user", description = "Interact with the user object", tags = "user")
@@ -40,5 +42,33 @@ public class ApplicationUserResource {
         //return user
         logger.debug("User {} found in the database and identified as {} {}.", user.getId(), user.getFirstName(), user.getLastName());
         return Response.ok(user).build();
+    }
+
+    //UPDATE USER
+    @PUT()
+    @Produces("application/json")
+    @ApiOperation(value = "Update an existing user",
+        notes = "Updates the user if it matches the request",
+        response = ApplicationUser.class
+    )
+    @Consumes("application/json")
+    public Response update(ApplicationUser in, @Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
+        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
+        logger.debug("Update user with id {} requested at user resource", auth.getUserId());
+        ApplicationUser out;
+
+        if (!in.isValid()) {
+            return Response.status(404).build();
+        }
+
+        if (in.getId() == auth.getUserId()) {
+            out = ApplicationUserData.update(in);
+        } else {
+            return Response.status(403).build();
+        }
+
+        logger.debug("Update username for user with id {}", auth.getUserId());
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        return Response.created(builder.build()).entity(out).build();
     }
 }

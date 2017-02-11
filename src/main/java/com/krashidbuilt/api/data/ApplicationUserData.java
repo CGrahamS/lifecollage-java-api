@@ -59,6 +59,29 @@ public final class ApplicationUserData {
         return getByEmail(in.getEmail());
     }
 
+    public static ApplicationUser update(ApplicationUser in) {
+        logger.debug("UPDATE USER WITH ID {} START", in.getId());
+
+        MySQL db = new MySQL();
+
+        String sql = "UPDATE application_user SET username = ? WHERE id = ?";
+
+        try {
+
+            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.getpStmt().setString(1, in.getUsername());
+            db.getpStmt().setInt(2, in.getId());
+            db.getpStmt().executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO GET USER BY ID", e);
+        }
+        db.cleanUp();
+
+        logger.debug("UPDATE USER WITH ID {} END", in.getId());
+        return getById(in.getId());
+    }
+
     public static ApplicationUser getById(int userId) {
         logger.debug("GET USER {} BY ID", userId);
         ApplicationUser user = new ApplicationUser();

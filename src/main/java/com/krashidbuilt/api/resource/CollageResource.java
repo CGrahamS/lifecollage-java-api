@@ -124,16 +124,13 @@ public class CollageResource {
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
         logger.debug("Update collage with id {} title to {} requested by {} at collage resource", in.getId(), in.getTitle(), auth.getUserId());
         Collage out;
-        Collage collage = CollageData.getCollage(in.getId());
+//      Collage collage = CollageData.getCollage(in.getId());
 
         if (!in.isValid()) {
             return Response.status(404).build();
         }
 
-        logger.debug("This collages user id is = {}", in.getUserId());
-        logger.debug("The authorized user id is = {}", auth.getUserId());
-
-        if (collage.getUserId() == auth.getUserId()) {
+        if (in.getUserId() == auth.getUserId()) {
             out = CollageData.updateCollageTitle(in);
         } else {
             return Response.status(403).build();
