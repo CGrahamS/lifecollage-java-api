@@ -71,4 +71,34 @@ public class ApplicationUserResource {
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         return Response.created(builder.build()).entity(out).build();
     }
+
+    //DELETE USER
+    @DELETE()
+    @Produces("application/json")
+    @ApiOperation(value = "Delete an existing user",
+        notes = "Deletes an existing user if it matches the request",
+        response = ApplicationUser.class
+    )
+    @Consumes("application/json")
+    public Response delete(@Context HttpServletRequest servletRequest) {
+
+        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
+        logger.debug("Delete user by id {} requested at user resource", auth.getUserId());
+
+        ApplicationUser user = ApplicationUserData.getById(auth.getUserId());
+
+        if (!user.isValid()) {
+            return Response.status(404).build();
+        }
+
+        if (user.getId() == auth.getUserId()) {
+            ApplicationUserData.delete(auth.getUserId());
+        } else {
+            return Response.status(403).build();
+        }
+
+        //return user
+        logger.debug("Deleted user with id {}", auth.getUserId());
+        return Response.status(204).build();
+    }
 }

@@ -82,6 +82,26 @@ public final class ApplicationUserData {
         return getById(in.getId());
     }
 
+    public static void delete(int userId) {
+        logger.debug("DELETE USER WITH ID {} START", userId);
+
+        MySQL db = new MySQL();
+
+        String sql = "DELETE FROM application_user WHERE id = ?";
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.getpStmt().setInt(1, userId);
+            db.getpStmt().executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO DELETE USER  BY ID", e);
+        }
+        db.cleanUp();
+
+        logger.debug("DELETE USER WITH ID {} END", userId);
+    }
+
     public static ApplicationUser getById(int userId) {
         logger.debug("GET USER {} BY ID", userId);
         ApplicationUser user = new ApplicationUser();
