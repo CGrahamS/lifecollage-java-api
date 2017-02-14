@@ -124,7 +124,6 @@ public class CollageResource {
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
         logger.debug("Update collage with id {} title to {} requested by {} at collage resource", in.getId(), in.getTitle(), auth.getUserId());
         Collage out;
-//      Collage collage = CollageData.getCollage(in.getId());
 
         if (!in.isValid()) {
             return Response.status(404).build();
