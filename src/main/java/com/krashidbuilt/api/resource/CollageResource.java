@@ -108,7 +108,7 @@ public class CollageResource {
         }
 
         if (collages.size() <= 0) {
-            return Response.status(200).build();
+            return Response.noContent().build();
         }
 
         logger.debug("Collages that belong to user with id: {} found in the database", auth.getUserId());
