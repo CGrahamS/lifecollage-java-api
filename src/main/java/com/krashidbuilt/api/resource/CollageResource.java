@@ -77,7 +77,9 @@ public class CollageResource {
         Collage collage = CollageData.getCollage(collageId);
 
         if (!collage.isValid()) {
-            return Response.status(404).build();
+            logger.debug("CANNOT FIND COLLAGE");
+            Error error = Error.notFound("Collage", collageId);
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         //return collage
