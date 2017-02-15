@@ -106,13 +106,17 @@ public class ApplicationUserResource {
         ApplicationUser user = ApplicationUserData.getById(auth.getUserId());
 
         if (!user.isValid()) {
-            return Response.status(404).build();
+            logger.debug("CANNOT FIND USER");
+            Error error = Error.notFound("USER", user.getId());
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         if (user.getId() == auth.getUserId()) {
             ApplicationUserData.delete(auth.getUserId());
         } else {
-            return Response.status(403).build();
+            logger.debug("CANNOT DELETE OTHER USER");
+            Error error = Error.forbidden();
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         logger.debug("Deleted user with id {}", auth.getUserId());
