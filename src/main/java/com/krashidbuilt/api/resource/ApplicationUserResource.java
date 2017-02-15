@@ -97,8 +97,12 @@ public class ApplicationUserResource {
         notes = "Deletes an existing user if it matches the request",
         response = ApplicationUser.class
     )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "User not found", response = Error.class),
+            @ApiResponse(code = 403, message = "You're not permitted to update other users information", response = Error.class)
+    })
     @Consumes("application/json")
-    public Response delete(@Context HttpServletRequest servletRequest) {
+    public Response delete(@Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
 
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
         logger.debug("Delete user by id {} requested at user resource", auth.getUserId());
@@ -120,6 +124,7 @@ public class ApplicationUserResource {
         }
 
         logger.debug("Deleted user with id {}", auth.getUserId());
-        return Response.status(204).build();
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        return Response.ok(builder.build()).entity(user).build();
     }
 }
