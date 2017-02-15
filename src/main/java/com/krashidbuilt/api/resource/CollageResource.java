@@ -170,13 +170,17 @@ public class CollageResource {
         Collage collage = CollageData.getCollage(collageId);
 
         if (!collage.isValid()) {
-            return Response.status(404).build();
+            logger.debug("CANNOT FIND COLLAGE");
+            Error error = Error.notFound("Collage", collage.getId());
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         if (collage.getUserId() == auth.getUserId()) {
             CollageData.deleteCollage(collageId);
         } else {
-            return Response.status(403).build();
+            logger.debug("CANNOT DELETE COLLAGE USER DOES NOT OWN");
+            Error error = Error.forbidden();
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         logger.debug("Delete single collage at delete controller");
