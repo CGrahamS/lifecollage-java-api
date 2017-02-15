@@ -139,7 +139,9 @@ public class CollageResource {
         if (in.getUserId() == auth.getUserId()) {
             out = CollageData.updateCollageTitle(in);
         } else {
-            return Response.status(403).build();
+            logger.debug("CAN'T UPDATE COLLAGE USER DOES NOT OWN");
+            Error error = Error.forbidden();
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         logger.debug("Update title of single collage at update controller" + out.toString());
