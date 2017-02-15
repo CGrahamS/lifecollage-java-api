@@ -133,13 +133,15 @@ public class CollageResource {
         Collage out;
 
         if (!in.isValid()) {
-            return Response.status(404).build();
+            logger.debug("CANNOT FIND COLLAGE");
+            Error error = Error.notFound("Collage", in.getId());
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         if (in.getUserId() == auth.getUserId()) {
             out = CollageData.updateCollageTitle(in);
         } else {
-            logger.debug("CAN'T UPDATE COLLAGE USER DOES NOT OWN");
+            logger.debug("CANNOT UPDATE COLLAGE USER DOES NOT OWN");
             Error error = Error.forbidden();
             return Response.status(error.getStatusCode()).entity(error).build();
         }
