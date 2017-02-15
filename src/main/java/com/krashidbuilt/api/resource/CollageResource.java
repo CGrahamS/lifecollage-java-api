@@ -170,6 +170,6 @@ public class CollageResource {
 
         logger.debug("Delete single collage at delete controller");
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        return Response.created(builder.build()).entity(collage).build();
+        return Response.ok(builder.build()).entity(collage).build();
     }
 }
