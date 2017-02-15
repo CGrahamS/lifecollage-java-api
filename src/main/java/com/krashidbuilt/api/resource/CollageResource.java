@@ -68,6 +68,9 @@ public class CollageResource {
             notes = "Return a collage that matches the specified id",
             response = Collage.class
     )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "Collage not found", response = Error.class)
+    })
     @Consumes("application/json")
     public Response getCollage(@PathParam("collageId") int collageId, @Context UriInfo uriInfo) {
         logger.debug("Get collage by id {} requested at collage resource", collageId);
@@ -118,6 +121,10 @@ public class CollageResource {
             notes = "Update existing collage with id that matches the supplied id",
             response = Collage.class
     )
+    @ApiResponses(value = {
+            @ApiResponse(code = 403, message = "You are not allowed to update other users collages", response = Error.class),
+            @ApiResponse(code = 404, message = "Collage not found", response = Error.class)
+    })
     @Consumes("application/json")
     public Response updateCollage(Collage in, @Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
 
