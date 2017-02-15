@@ -99,7 +99,7 @@ public class ApplicationUserResource {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "User not found", response = Error.class),
-            @ApiResponse(code = 403, message = "You're not permitted to update other users information", response = Error.class)
+            @ApiResponse(code = 403, message = "You're not permitted to delete other users", response = Error.class)
     })
     @Consumes("application/json")
     public Response delete(@Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
