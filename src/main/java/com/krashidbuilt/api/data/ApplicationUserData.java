@@ -64,12 +64,12 @@ public final class ApplicationUserData {
 
         MySQL db = new MySQL();
 
-        String sql = "UPDATE application_user SET username = ? WHERE id = ?";
+        String sql = "UPDATE application_user SET email = ? WHERE id = ?";
 
         try {
 
             db.setpStmt(db.getConn().prepareStatement(sql));
-            db.getpStmt().setString(1, in.getUsername());
+            db.getpStmt().setString(1, in.getEmail());
             db.getpStmt().setInt(2, in.getId());
             db.getpStmt().executeUpdate();
 

@@ -47,14 +47,14 @@ public class ApplicationUserResource {
     //UPDATE USER
     @PUT()
     @Produces("application/json")
-    @ApiOperation(value = "Update an existing user",
-        notes = "Updates the user if it matches the request",
+    @ApiOperation(value = "Update an existing users email",
+        notes = "Updates the user's email if it matches the request",
         response = ApplicationUser.class
     )
     @Consumes("application/json")
     public Response update(ApplicationUser in, @Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
-        logger.debug("Update user with id {} requested at user resource", auth.getUserId());
+        logger.debug("Update email of user with id {} requested at user resource", auth.getUserId());
         ApplicationUser out;
 
         if (!in.isValid()) {
@@ -67,8 +67,9 @@ public class ApplicationUserResource {
             return Response.status(403).build();
         }
 
-        logger.debug("Update username for user with id {}", auth.getUserId());
+        logger.debug("Updated email of user with id {}", auth.getUserId());
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        //return user
         return Response.created(builder.build()).entity(out).build();
     }
 
@@ -97,7 +98,6 @@ public class ApplicationUserResource {
             return Response.status(403).build();
         }
 
-        //return user
         logger.debug("Deleted user with id {}", auth.getUserId());
         return Response.status(204).build();
     }
