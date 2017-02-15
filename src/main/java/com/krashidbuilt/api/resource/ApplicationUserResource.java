@@ -3,8 +3,11 @@ package com.krashidbuilt.api.resource;
 import com.krashidbuilt.api.data.ApplicationUserData;
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.Authentication;
+import com.krashidbuilt.api.model.Error;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +30,9 @@ public class ApplicationUserResource {
             notes = "Returns the user if it matches the request",
             response = ApplicationUser.class
     )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "User not found", response = Error.class)
+    })
     @Consumes("application/json")
     public Response getById(@Context HttpServletRequest servletRequest) {
 
@@ -36,7 +42,9 @@ public class ApplicationUserResource {
         ApplicationUser user = ApplicationUserData.getById(auth.getUserId());
 
         if (!user.isValid()) {
-            return Response.status(404).build();
+            logger.debug("CANNOT FIND USER");
+            Error error = Error.notFound("USER", user.getId());
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         //return user
@@ -51,20 +59,29 @@ public class ApplicationUserResource {
         notes = "Updates the user's email if it matches the request",
         response = ApplicationUser.class
     )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "User not found", response = Error.class),
+            @ApiResponse(code = 403, message = "You're not permitted to update other users information", response = Error.class)
+    })
     @Consumes("application/json")
     public Response update(ApplicationUser in, @Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
         logger.debug("Update email of user with id {} requested at user resource", auth.getUserId());
         ApplicationUser out;
+        ApplicationUser user = ApplicationUserData.getById(in.getId());
 
-        if (!in.isValid()) {
-            return Response.status(404).build();
+        if (!user.isValid()) {
+            logger.debug("CANNOT FIND USER");
+            Error error = Error.notFound("USER", in.getId());
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
-        if (in.getId() == auth.getUserId()) {
+        if (user.getId() == auth.getUserId()) {
             out = ApplicationUserData.update(in);
         } else {
-            return Response.status(403).build();
+            logger.debug("CANNOT UPDATE OTHER USER");
+            Error error = Error.forbidden();
+            return Response.status(error.getStatusCode()).entity(error).build();
         }
 
         logger.debug("Updated email of user with id {}", auth.getUserId());
