@@ -132,15 +132,16 @@ public class CollageResource {
 
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
         logger.debug("Update collage with id {} title to {} requested by {} at collage resource", in.getId(), in.getTitle(), auth.getUserId());
+        Collage collage = CollageData.getCollage(in.getId());
         Collage out;
 
-        if (!in.isValid()) {
+        if (!collage.isValid()) {
             logger.debug("CANNOT FIND COLLAGE");
             Error error = Error.notFound("Collage", in.getId());
             return Response.status(error.getStatusCode()).entity(error).build();
         }
 
-        if (in.getUserId() == auth.getUserId()) {
+        if (collage.getUserId() == auth.getUserId()) {
             out = CollageData.updateCollageTitle(in);
         } else {
             logger.debug("CANNOT UPDATE COLLAGE USER DOES NOT OWN");
