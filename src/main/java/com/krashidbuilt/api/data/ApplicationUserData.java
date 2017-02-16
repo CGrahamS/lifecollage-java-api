@@ -3,6 +3,7 @@ package com.krashidbuilt.api.data;
 import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.Error;
+import com.krashidbuilt.api.model.PublicApplicationUser;
 import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.Encryption;
 import com.krashidbuilt.api.service.MySQL;
@@ -14,7 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -131,9 +131,9 @@ public final class ApplicationUserData {
         return user;
     }
 
-    public static List<HashMap<String, Object>> getByUsername(String queryString) {
+    public static List<PublicApplicationUser> getByUsername(String queryString) {
         logger.debug("GET USER WITH USERNAME MATCHING QUERY STRING {}", queryString);
-        List<HashMap<String, Object>> users = new ArrayList<>();
+        List<PublicApplicationUser> users = new ArrayList<>();
         MySQL db = new MySQL();
 
         String sql = "SELECT * FROM application_user WHERE username LIKE ?";
@@ -142,8 +142,10 @@ public final class ApplicationUserData {
             db.getpStmt().setString(1, "%" + queryString + "%");
 
             db.setRs(db.getpStmt().executeQuery());
+            while (db.getRs().next()){
+                users.add(ObjectMapper.publicApplicationUser(db.getRs()));
+            }
 
-            users = ObjectMapper.convertResultSetToList(db.getRs());
 
         } catch (SQLException e) {
             logger.error("UNABLE TO GET USERS MATCHING QUERY STRING", e);

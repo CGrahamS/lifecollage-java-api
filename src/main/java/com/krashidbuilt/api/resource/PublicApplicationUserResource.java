@@ -1,7 +1,7 @@
 package com.krashidbuilt.api.resource;
 
 import com.krashidbuilt.api.data.ApplicationUserData;
-import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.PublicApplicationUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,13 +25,14 @@ public class PublicApplicationUserResource {
     @Produces("application/json")
     @ApiOperation(value = "Get existing users",
             notes = "Returns users whose username matches a query",
-            response = ApplicationUser.class
+            response = PublicApplicationUser.class,
+            responseContainer = "List"
     )
     @Consumes("application/json")
     public Response getByUsername(@QueryParam("username") String searchQuery) {
         logger.debug("Get users whose user name matches search query: {}", searchQuery);
 
-        List<HashMap<String, Object>> users;
+        List<PublicApplicationUser> users;
 
         users = ApplicationUserData.getByUsername(searchQuery);
 
