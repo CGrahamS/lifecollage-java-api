@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Ben Kauffman on 1/15/2017.
@@ -126,6 +129,30 @@ public final class ApplicationUserData {
 
         logger.debug("GET USER {} BY ID END", userId);
         return user;
+    }
+
+    public static List<HashMap<String, Object>> getByUsername(String queryString) {
+        logger.debug("GET USER WITH USERNAME MATCHING QUERY STRING {}", queryString);
+        List<HashMap<String, Object>> users = new ArrayList<>();
+        MySQL db = new MySQL();
+
+        String sql = "SELECT * FROM application_user WHERE username LIKE ?";
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.getpStmt().setString(1, "%" + queryString + "%");
+
+            db.setRs(db.getpStmt().executeQuery());
+
+            users = ObjectMapper.convertResultSetToList(db.getRs());
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO GET USERS MATCHING QUERY STRING", e);
+        }
+
+        db.cleanUp();
+
+        logger.debug("GET USER WITH USERNAME MATCHING QUERY STRING {} END", queryString);
+        return users;
     }
 
     public static ApplicationUser getByEmail(String email) {

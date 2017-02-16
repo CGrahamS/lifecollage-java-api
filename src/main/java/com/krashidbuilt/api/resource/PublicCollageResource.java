@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -91,11 +90,11 @@ public class PublicCollageResource {
             response = Collage.class
     )
     @Consumes("application/json")
-    public Response getAllCollages(@Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
+    public Response getAllCollages() {
         List<HashMap<String, Object>> collages;
         collages = CollageData.getCollages(0);
 
-        logger.debug("Get collages that belong to all users");
+        logger.debug("Get all collages");
         return Response.ok(collages).build();
     }
 }
