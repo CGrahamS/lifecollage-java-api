@@ -1,6 +1,7 @@
 package com.krashidbuilt.api.helpers;
 
 import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.Collage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,25 +28,48 @@ public class ObjectMapper {
             object.setFirstName(rs.getString("first_name"));
             object.setLastName(rs.getString("last_name"));
             object.setEmail(rs.getString("email"));
+            object.setUsername(rs.getString("username"));
 
             //don't display password information for any user ... EVER!
 
             object.setCreated(rs.getString("created"));
             object.setUpdated(rs.getString("updated"));
 
-            if (rs.getString("roles") != null) {
-                object.setRoles(Arrays.asList(rs.getString("roles").split("\\|\\|\\|")));
-            }
-
-            if (rs.getString("tags") != null) {
-                object.setStringTags(Arrays.asList(rs.getString("tags").split("\\|\\|\\|")));
-            }
-
         } catch (SQLException ex) {
             logger.error("UNABLE TO GET APPLICATION USER FROM THE RESULT SET ", ex);
         }
 
         return object;
+    }
+
+    public static Collage collage(ResultSet rs) throws SQLException {
+        Collage object = new Collage();
+
+        try {
+            object.setId(rs.getInt("id"));
+            object.setTitle(rs.getString("title"));
+            object.setCreated(rs.getString("created"));
+            object.setUserId(rs.getInt("application_user_id"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET COLLAGE FROM RESULT SET", ex);
+        }
+
+        return object;
+    }
+
+    public static ArrayList<Collage> collages(ResultSet rs) throws SQLException {
+        Collage object = new Collage();
+        ArrayList<Collage> collages = new ArrayList<>();
+
+        try {
+            object.setId(rs.getInt("id"));
+            object.setTitle(rs.getString("title"));
+            object.setCreated(rs.getString("created"));
+            collages.add(object);
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET COLLAGES FROM RESULT SET", ex);
+        }
+        return collages;
     }
 
 

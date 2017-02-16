@@ -45,7 +45,6 @@ public class AuthenticationData {
             throw new ThrowableError(error);
         }
 
-
         logger.debug("LOGIN USER " + email);
 
         ApplicationUser user = new ApplicationUser();
@@ -56,7 +55,7 @@ public class AuthenticationData {
         MySQL db = new MySQL();
 
         try {
-            db.setpStmt(db.getConn().prepareStatement("SELECT * FROM application_user WHERE email = ?"));
+            db.setpStmt(db.getConn().prepareStatement("SELECT * FROM application_user WHERE email = ? LIMIT 1"));
             db.getpStmt().setString(1, email);
             db.setRs(db.getpStmt().executeQuery());
 
@@ -146,10 +145,9 @@ public class AuthenticationData {
             expiration = 0;
         }
 
-        int ttlMillis = expiration * 1000;
-
         long nowMillis = DateTime.getEpochMillis();
-
+        long expires = nowMillis + (expiration * 1000);
+        logger.debug("CURRENT {} EXPIRES {}", nowMillis, expires);
         Claims claims = Jwts.claims().setSubject(auth.getEmail());
         claims.put("auth", auth.toString());
 
@@ -161,7 +159,7 @@ public class AuthenticationData {
                 .setSubject(auth.getEmail())
                 .setIssuer(Settings.getStringSetting("jwt.issuer"))
                 .signWith(SignatureAlgorithm.HS512, SECRET);
-        builder.setExpiration(DateTime.fromMillis(nowMillis + ttlMillis));
+        builder.setExpiration(DateTime.fromMillis(expires));
 
         //Builds the JWT and serializes it to a compact, URL-safe string
         return builder.compact();

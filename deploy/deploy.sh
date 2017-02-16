@@ -3,14 +3,14 @@ cd ../
 #exit the script if any errors occur
 set -e
 
-name=krashidbuilt-api-prod
-host=$name.krashidbuilt.net
-email=ben@krashidbuilt.com
+name=lifecollage-java-api
+host=int-feb-17-api.developmentnow.net
+email=cgrahamstevenson@gmail.com
 
 # DEPLOY PRODUCTION CONTAINER
 
 # Build image for production API
-docker build --no-cache=true -t $name .
+docker build --no-cache=true -t $name --file Dockerfile .
 
 # Kill and delete the current docker container
 set +e
@@ -24,7 +24,7 @@ docker run -d \
   -e "LETSENCRYPT_HOST=$host" \
   -e "LETSENCRYPT_EMAIL=$email" \
   --restart always \
-  -v /home/ec2-user/logs/$name:/usr/dev/krashidbuilt-java-api/logs \
+  -v /home/ec2-user/logs/$name:/usr/dev/lifecollage-java-api/logs \
   $name
 
 

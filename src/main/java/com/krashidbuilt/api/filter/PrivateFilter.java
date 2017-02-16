@@ -40,6 +40,8 @@ public class PrivateFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
+        logger.debug("WE ARE HERE");
+
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 
         Authentication auth = new Authentication();
@@ -62,12 +64,6 @@ public class PrivateFilter implements Filter {
         if (!auth.isValid()) {
             // is not a valid user
             ErrorResponse.unauthorized(servletResponse);
-            return;
-        }
-
-        if (auth.isAdmin() && httpRequest.getRequestURL().toString().contains("/api/private/user/")) {
-            // admin's do not have access to user endpoints
-            ErrorResponse.forbidden(servletResponse);
             return;
         }
 

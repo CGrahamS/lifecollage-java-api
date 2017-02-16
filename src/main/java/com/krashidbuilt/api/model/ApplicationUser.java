@@ -2,12 +2,8 @@ package com.krashidbuilt.api.model;
 
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Ben Kauffman on 1/15/2017.
@@ -17,39 +13,31 @@ import java.util.List;
 public class ApplicationUser implements Serializable {
 
     private int id;
-    @ApiModelProperty(value = "id", required = true)
     private String firstName;
-    @ApiModelProperty(value = "firstName", required = true)
     private String lastName;
-    @ApiModelProperty(value = "lastName", required = true)
     private String email;
-    @ApiModelProperty(value = "email", required = true)
-
+    private String username;
     private String password;
-    @ApiModelProperty(value = "password", required = true)
     private String created;
-    @ApiModelProperty(value = "created", required = false)
     private String updated;
-    @ApiModelProperty(value = "updated", required = false)
 
     private ApplicationToken applicationToken;
-    @ApiModelProperty(value = "applicationToken", required = false)
-
-    private boolean valid;
-    @ApiModelProperty(value = "valid", required = false)
-
-    private List<HashMap> tags;
-    private List<String> roles;
 
 
     public ApplicationUser() {
-        tags = new ArrayList<>();
         applicationToken = new ApplicationToken();
-        roles = new ArrayList<String>();
     }
 
     public static ApplicationUser fromString(String json) {
         return new Gson().fromJson(json, ApplicationUser.class);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getId() {
@@ -118,35 +106,6 @@ public class ApplicationUser implements Serializable {
 
     public boolean isValid() {
         return id >= 1;
-    }
-
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
-
-    public List<HashMap> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<HashMap> tags) {
-        this.tags = tags;
-    }
-
-    public void setStringTags(List<String> stringTags) {
-        tags = new ArrayList<>();
-        for (String stringTag : stringTags) {
-            HashMap tag = new HashMap();
-            tag.put("tag", stringTag);
-            tags.add(tag);
-        }
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
     }
 
     @Override

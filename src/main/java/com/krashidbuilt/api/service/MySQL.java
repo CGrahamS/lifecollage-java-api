@@ -2,6 +2,7 @@ package com.krashidbuilt.api.service;
 
 
 import com.krashidbuilt.api.helpers.DateTime;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +12,7 @@ import java.sql.*;
  * Created by Ben Kauffman on 2/9/2016.
  */
 
-
+@SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
 public class MySQL {
 
     private static Logger logger = LogManager.getLogger();

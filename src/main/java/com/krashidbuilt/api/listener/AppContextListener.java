@@ -38,7 +38,7 @@ public class AppContextListener implements ServletContextListener {
 
         TimerTask healthCheck = new HealthCheckTimerTask();
         Timer healthCheckTimer = new Timer();
-        healthCheckTimer.schedule(healthCheck, 0, 300_000); //every 5 minutes
+        healthCheckTimer.schedule(healthCheck, 0, 300000); //every 5 minutes
 
     }
 

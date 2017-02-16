@@ -12,7 +12,7 @@
             <param-value>
                 io.swagger.jaxrs.json,
                 io.swagger.jaxrs.listing,
-                com.brightlineeating.api
+                com.krashidbuilt.api
             </param-value>
         </init-param>
         <!--<init-param>-->
@@ -122,15 +122,6 @@
     <filter-mapping>
         <filter-name>PrivateFilter</filter-name>
         <url-pattern>/api/private/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>AdminFilter</filter-name>
-        <filter-class>com.krashidbuilt.api.filter.AdminFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AdminFilter</filter-name>
-        <url-pattern>/api/private/admin/*</url-pattern>
     </filter-mapping>
 
 </web-app>

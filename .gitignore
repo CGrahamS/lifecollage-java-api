@@ -7,5 +7,9 @@ classes
 *.war
 out
 .settings
-*.properties
+dev.properties
+test.properties
+prod.properties
+local.properties
+integration-test.properties
 *.iml

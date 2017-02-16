@@ -47,8 +47,8 @@ public class ConnectionPool implements Runnable {
             //default mysql is 28800 seconds (8 hours)
             //SHOW SESSION VARIABLES LIKE "%wait%";
 
-            config.setIdleTimeout(900_000); // 15 minutes
-            config.setMaxLifetime(28_440_000); // 7.9 hours
+            config.setIdleTimeout(900000); // 15 minutes
+            config.setMaxLifetime(28440000); // 7.9 hours
 
             datasource = new HikariDataSource(config);
 

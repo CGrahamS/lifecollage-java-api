@@ -10,9 +10,11 @@ echo "SETTING UP EC2 INSTANCE WITH DOCKER AND GIT"
 #Update the installed packages and package cache
 yum update -y
 
-#midnight commander
-yum install -y mc
+#Update the installed packages and package cache
+yum upgrade -y
 
+#Install git on the instance
+yum install -y git
 
 #Install docker on the instance
 yum install -y docker
@@ -29,20 +31,13 @@ usermod -a -G docker ec2-user
 #check to see that docker installed
 docker info
 
-
-#Install git on the instance
-yum install -y git
-
-
 #needed directories for nginx docker container deployment
 mkdir /etc/nginx/certs
 touch /etc/nginx/vhost.d
 mkdir /usr/share/nginx/html
 
 
-
-
-echo "EC2 setup complete. You will be logged out and will need to log back in for changes to take effect. PRESS ENTER TO CONTINUE..."
+echo "EC2 docker setup is complete. You will be logged out and will need to log back in for changes to take effect. PRESS ENTER TO CONTINUE..."
 
 #Wait for user to acknowledge
 read keypressed
