@@ -16,7 +16,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,7 +58,8 @@ public class PublicCollageResource {
     @Produces("application/json")
     @ApiOperation(value = "Retrieve all collages that belong to a user",
             notes = "Return all collages that belong to the user with an id that matches the supplied id",
-            response = Collage.class
+            response = Collage.class,
+            responseContainer = "List"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Unable to find user", response = Error.class)
@@ -67,7 +67,7 @@ public class PublicCollageResource {
     @Consumes("application/json")
     public Response getCollages(@PathParam("userId") int userId) {
         ApplicationUser user = ApplicationUserData.getById(userId);
-        List<HashMap<String, Object>> collages;
+        List<Collage> collages;
 
         if(!user.isValid()) {
             logger.debug("CANNOT FIND USER");
@@ -87,11 +87,12 @@ public class PublicCollageResource {
     @Produces("application/json")
     @ApiOperation(value = "Retrieve all collages",
             notes = "Returns all existing collages",
-            response = Collage.class
+            response = Collage.class,
+            responseContainer = "List"
     )
     @Consumes("application/json")
     public Response getAllCollages() {
-        List<HashMap<String, Object>> collages;
+        List<Collage> collages;
         collages = CollageData.getCollages(0);
 
         logger.debug("Get all collages");

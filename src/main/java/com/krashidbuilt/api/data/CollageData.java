@@ -73,9 +73,9 @@ public class CollageData {
         return collage;
     }
 
-    public static List<HashMap<String, Object>> getCollages(int userId) {
+    public static List<Collage> getCollages(int userId) {
         logger.debug("GET COLLAGES BY USER ID {} START", userId);
-        List<HashMap<String, Object>> collages = new ArrayList<>();
+        List<Collage> collages = new ArrayList<>();
 
         MySQL db = new MySQL();
 
@@ -90,8 +90,9 @@ public class CollageData {
             }
 
             db.setRs(db.getpStmt().executeQuery());
-
-            collages = ObjectMapper.convertResultSetToList(db.getRs());
+            while (db.getRs().next()) {
+                collages.add(ObjectMapper.collage(db.getRs()));
+            }
 
         } catch (SQLException e) {
             logger.error("UNABLE TO GET COLLAGE BY USER ID");
