@@ -93,6 +93,9 @@ public class CollageResource {
             notes = "Return all collages that belong to the user with an id that matches the supplied id",
             response = Collage.class
     )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "Unable to find user", response = Error.class)
+    })
     @Consumes("application/json")
     public Response getCollages(@PathParam("userId") int userId) {
         ApplicationUser user = ApplicationUserData.getById(userId);
