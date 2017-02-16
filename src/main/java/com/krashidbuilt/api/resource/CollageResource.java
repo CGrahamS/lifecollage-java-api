@@ -1,10 +1,9 @@
 package com.krashidbuilt.api.resource;
 
+import com.krashidbuilt.api.data.ApplicationUserData;
 import com.krashidbuilt.api.data.CollageData;
-import com.krashidbuilt.api.model.Authentication;
-import com.krashidbuilt.api.model.Collage;
+import com.krashidbuilt.api.model.*;
 import com.krashidbuilt.api.model.Error;
-import com.krashidbuilt.api.model.ThrowableError;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -88,34 +87,47 @@ public class CollageResource {
     }
 
     @GET()
-    @Path("user")
+    @Path("user/{userId}")
     @Produces("application/json")
-    @ApiOperation(value = "Retrieve all collages that belong to a user or all collages",
-            notes = "Return all collages that belong to the user with an id that matches the supplied id or return all collages",
+    @ApiOperation(value = "Retrieve all collages that belong to a user",
+            notes = "Return all collages that belong to the user with an id that matches the supplied id",
             response = Collage.class
     )
     @Consumes("application/json")
-    public Response getCollages(
-            @QueryParam("all") boolean all,
-            @Context HttpServletRequest servletRequest) {
-        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
-
+    public Response getCollages(@PathParam("userId") int userId) {
+        ApplicationUser user = ApplicationUserData.getById(userId);
         List<HashMap<String, Object>> collages;
-        if (all) {
-            logger.debug("Get collages that belong to all users, request by {}", auth.getName());
-            collages = CollageData.getCollages(0);
+
+        if(!user.isValid()) {
+            logger.debug("CANNOT FIND USER");
+            Error error = Error.notFound("USER", userId);
+            return Response.status(error.getStatusCode()).entity(error).build();
         } else {
-            logger.debug("Get collages that belong to user id {} requested at collage resource", auth.getUserId());
-            collages = CollageData.getCollages(auth.getUserId());
+            logger.debug("Get collages that belong to user id {} requested at collage resource", userId);
+            collages = CollageData.getCollages(userId);
         }
 
-        if (collages.size() <= 0) {
-            return Response.ok(collages).build();
-        }
-
-        logger.debug("Collages that belong to user with id: {} found in the database", auth.getUserId());
+        logger.debug("Collages that belong to user with id: {} found in the database", userId);
         return Response.ok(collages).build();
     }
+
+    @GET()
+    @Path("all")
+    @Produces("application/json")
+    @ApiOperation(value = "Retrieve all collages",
+        notes = "Returns all existing collages",
+        response = Collage.class
+    )
+    @Consumes("application/json")
+    public Response getAllCollages(@Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
+        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
+        List<HashMap<String, Object>> collages;
+        collages = CollageData.getCollages(0);
+
+        logger.debug("Get collages that belong to all users, request by {}", auth.getName());
+        return Response.ok(collages).build();
+    }
+
 
     @PUT()
     @Produces("application/json")
