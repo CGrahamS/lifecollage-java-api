@@ -48,7 +48,7 @@ public class CollagePicData {
     }
 
     public static CollagePic getRecentPic(int collageId) {
-        logger.debug("GET PICTURE START");
+        logger.debug("GET MOST RECENT PICTURE OF COLLAGE WITH ID {}", collageId);
         CollagePic picture = new CollagePic();
 
         MySQL db = new MySQL();
@@ -71,7 +71,7 @@ public class CollagePicData {
 
         db.cleanUp();
 
-        logger.debug("GET PICTURE WITH ID {} END", collageId);
+        logger.debug("GET MOST RECENT PICTURE OF COLLAGE WITH ID {} END", collageId);
         return picture;
     }
 }

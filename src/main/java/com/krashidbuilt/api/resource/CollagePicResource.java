@@ -39,6 +39,7 @@ public class CollagePicResource {
     @Consumes("application/json")
     public Response createPicture(@PathParam("collageId") int collageId, CollagePic in,
                                   @Context UriInfo uriInfo) {
+        logger.debug("Create picture with location of {} and collageId of {} at PrivateCollagePicResource", in.getLocation(), collageId);
         CollagePic out;
 
         try {
@@ -50,7 +51,7 @@ public class CollagePicResource {
         }
 
         // return newly created collagepic
-        logger.debug("Create single collagepic: " + out.toString());
+        logger.debug("Create single picture: " + out.toString());
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         return Response.created(builder.build()).entity(out).build();
     }
