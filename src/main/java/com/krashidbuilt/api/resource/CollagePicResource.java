@@ -39,7 +39,6 @@ public class CollagePicResource {
     @Consumes("application/json")
     public Response createPicture(@PathParam("collageId") int collageId, CollagePic in,
                                   @Context UriInfo uriInfo) {
-
         CollagePic out;
 
         try {

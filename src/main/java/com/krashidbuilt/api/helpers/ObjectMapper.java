@@ -2,6 +2,7 @@ package com.krashidbuilt.api.helpers;
 
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.Collage;
+import com.krashidbuilt.api.model.CollagePic;
 import com.krashidbuilt.api.model.PublicApplicationUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,6 +70,20 @@ public class ObjectMapper {
             object.setUserId(rs.getInt("application_user_id"));
         } catch (SQLException ex) {
             logger.error("UNABLE TO GET COLLAGE FROM RESULT SET", ex);
+        }
+
+        return object;
+    }
+
+    public static CollagePic collagePic(ResultSet rs) throws SQLException {
+        CollagePic object = new CollagePic();
+
+        try {
+            object.setId(rs.getInt("id"));
+            object.setCollageId(rs.getInt("collage_id"));
+            object.setLocation(rs.getString("location"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET PICTURE FROM RESULT SET", ex);
         }
 
         return object;

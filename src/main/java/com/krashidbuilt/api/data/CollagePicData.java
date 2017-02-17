@@ -1,5 +1,6 @@
 package com.krashidbuilt.api.data;
 
+import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.CollagePic;
 import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.MySQL;
@@ -44,5 +45,33 @@ public class CollagePicData {
         logger.debug("CREATE PICTURE END");
 
         return in;
+    }
+
+    public static CollagePic getRecentPic(int collageId) {
+        logger.debug("GET PICTURE START");
+        CollagePic picture = new CollagePic();
+
+        MySQL db = new MySQL();
+
+        String sql = "SELECT * FROM picture WHERE collage_id = ? ORDER BY created DESC LIMIT 1";
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.getpStmt().setInt(1, collageId);
+
+            db.setRs(db.getpStmt().executeQuery());
+
+            while (db.getRs().next()) {
+                picture = ObjectMapper.collagePic(db.getRs());
+            }
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO GET PICTURE", e);
+        }
+
+        db.cleanUp();
+
+        logger.debug("GET PICTURE WITH ID {} END", collageId);
+        return picture;
     }
 }
