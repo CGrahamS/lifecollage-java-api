@@ -1,6 +1,8 @@
 package com.krashidbuilt.api.resource;
 
+import com.krashidbuilt.api.data.CollageData;
 import com.krashidbuilt.api.data.CollagePicData;
+import com.krashidbuilt.api.model.Collage;
 import com.krashidbuilt.api.model.CollagePic;
 import com.krashidbuilt.api.model.Error;
 import io.swagger.annotations.Api;
@@ -36,12 +38,19 @@ public class PublicCollagePicResource {
     public Response getRecentPicture(@PathParam("collageId") int collageId) {
         logger.debug("Find most recent picture of collage with id {} at PublicCollagePicResource", collageId);
 
-        CollagePic picture;
+        Collage collage = CollageData.getCollage(collageId);
+        CollagePic out;
 
-        picture = CollagePicData.getRecentPic(collageId);
+        if (!collage.isValid()) {
+            logger.debug("CANNOT FIND COLLAGE");
+            Error error = Error.notFound("Collage", collageId);
+            return Response.status(error.getStatusCode()).entity(error).build();
+        }
+
+        out = CollagePicData.getRecentPic(collageId);
 
         // return most recent picture of collage with supplied id
-        logger.debug("Get single picture" + picture.toString());
-        return Response.ok(picture).build();
+        logger.debug("Get single picture" + out.toString());
+        return Response.ok(out).build();
     }
 }

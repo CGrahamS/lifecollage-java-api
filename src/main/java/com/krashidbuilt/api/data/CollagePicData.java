@@ -47,6 +47,34 @@ public class CollagePicData {
         return in;
     }
 
+    public static CollagePic getPic(int picId) {
+        logger.debug("GET PIC WITH ID MATCHING {}", picId);
+        CollagePic picture = new CollagePic();
+
+        MySQL db = new MySQL();
+
+        String sql = "SELECT * FROM picture WHERE id = ? LIMIT 1";
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.getpStmt().setInt(1, picId);
+
+            db.setRs(db.getpStmt().executeQuery());
+
+            while (db.getRs().next()) {
+                picture = ObjectMapper.collagePic(db.getRs());
+            }
+
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET PICTURE", ex);
+        }
+
+        db.cleanUp();
+
+        logger.debug("GET PICTURE WITH ID {} END", picId);
+        return picture;
+    }
+
     public static CollagePic getRecentPic(int collageId) {
         logger.debug("GET MOST RECENT PICTURE OF COLLAGE WITH ID {}", collageId);
         CollagePic picture = new CollagePic();
