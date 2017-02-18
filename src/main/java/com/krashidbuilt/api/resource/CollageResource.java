@@ -46,7 +46,8 @@ public class CollageResource {
         Collage out;
 
         try {
-            out = CollageData.create(auth.getUserId(), in);
+            CollageData.create(auth.getUserId(), in);
+            out = CollageData.getMostRecentCollage();
         } catch (ThrowableError ex) {
             logger.debug("CAN'T CREATE COLLAGE {} {}", in.getTitle(), ex.getError().getDevMessage());
             Error error = ex.getError();

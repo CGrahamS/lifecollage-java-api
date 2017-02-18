@@ -9,7 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CGrahamS on 2/3/17.
@@ -70,6 +71,31 @@ public class CollageData {
         db.cleanUp();
 
         logger.debug("GET COLLAGE WITH ID {} END", collageId);
+        return collage;
+    }
+
+    public static Collage getMostRecentCollage() {
+        logger.debug("GET MOST RECENT COLLAGE START");
+        Collage collage = new Collage();
+
+        MySQL db = new MySQL();
+
+        String sql = "SELECT * FROM collage ORDER BY created DESC LIMIT 1";
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+
+            db.setRs(db.getpStmt().executeQuery());
+
+            while (db.getRs().next()) {
+                collage = ObjectMapper.collage(db.getRs());
+            }
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO GET MOST RECENT COLLAGE");
+        }
+        db.cleanUp();
+
+        logger.debug("GET MOST RECENT COLLAGE END");
         return collage;
     }
 
