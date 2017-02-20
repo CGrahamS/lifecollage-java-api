@@ -2,6 +2,7 @@ package com.krashidbuilt.api.data;
 
 import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.Collage;
+import com.krashidbuilt.api.model.CollageLatestPic;
 import com.krashidbuilt.api.service.MySQL;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
@@ -75,6 +76,63 @@ public class PublicCollageData {
 
         logger.debug("GET COLLAGE BY USER ID {} END", userId);
         return collages;
+    }
+
+    public static List<CollageLatestPic> getCollageLatestPic(int userId) {
+        logger.debug("GET COLLAGES WITH THE NEWEST PIC BY USER ID {} START", userId);
+        List<CollageLatestPic> list = new ArrayList<>();
+
+        MySQL db = new MySQL();
+
+        StringBuilder sql = new StringBuilder().append("" +
+                "SELECT  " +
+                "  c.id                  AS collage_id,  " +
+                "  c.title               AS collage_title,  " +
+                "  c.created             AS collage_created,  " +
+                "  c.application_user_id AS collage_application_user_id,  " +
+                "  " +
+                "  p.id                  AS picture_id,  " +
+                "  p.location            AS picture_title,  " +
+                "  MAX(p.created)        AS picture_created  " +
+                "  " +
+                "FROM  " +
+                "  collage AS c  " +
+                "  LEFT JOIN picture AS p ON c.id = p.collage_id  " +
+                "  ");
+
+
+        if (userId >= 1) {
+            sql.append(" WHERE application_user_id = ? ");
+        }
+
+        sql.append("" +
+                "GROUP BY  " +
+                "  c.id  " +
+                "  " +
+                "ORDER BY  " +
+                "  picture_created DESC  ");
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql.toString()));
+            if (userId >= 1) {
+                db.getpStmt().setInt(1, userId);
+            }
+
+            db.setRs(db.getpStmt().executeQuery());
+            while (db.getRs().next()) {
+                CollageLatestPic clp = new CollageLatestPic();
+                clp.setCollage(ObjectMapper.collage(db.getRs()));
+                clp.setCollagePic(ObjectMapper.collagePic(db.getRs()));
+                list.add(clp);
+            }
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO GET COLLAGES WITH THE NEWEST PIC BY USER ID", e);
+        }
+        db.cleanUp();
+
+        logger.debug("GET COLLAGES WITH THE NEWEST PIC BY USER ID {} END", userId);
+        return list;
     }
 
 }
