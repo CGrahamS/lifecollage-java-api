@@ -55,6 +55,8 @@ public class PublicCollageData {
         if (userId >= 1) {
             sql.append("WHERE application_user_id = ?");
         }
+
+        String latestPicSql = "SELECT * FROM picture WHERE collage_id";
         try {
             db.setpStmt(db.getConn().prepareStatement(sql.toString()));
             if (userId >= 1) {
