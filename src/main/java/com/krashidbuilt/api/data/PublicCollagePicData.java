@@ -41,6 +41,8 @@ public class PublicCollagePicData {
         }
 
         logger.debug("GET ALL PICTURES WITH COLLAGE ID {} END", collageId);
+
+        db.cleanUp();
         return pictures;
     }
 }

@@ -1,10 +1,8 @@
 package com.krashidbuilt.api.data;
 
 import com.krashidbuilt.api.helpers.ObjectMapper;
-import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.*;
 import com.krashidbuilt.api.model.Error;
-import com.krashidbuilt.api.model.PublicApplicationUser;
-import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.Encryption;
 import com.krashidbuilt.api.service.MySQL;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -59,7 +57,7 @@ public final class ApplicationUserData {
 
         logger.debug("CREATE USER END");
 
-        return getByEmail(in.getEmail());
+        return AuthenticationData.login(in.getEmail(), in.getPassword());
     }
 
     public static ApplicationUser update(ApplicationUser in) {

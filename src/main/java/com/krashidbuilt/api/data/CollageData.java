@@ -4,6 +4,7 @@ import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.Collage;
 import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.MySQL;
+import com.mysql.jdbc.PreparedStatement;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,13 +30,13 @@ public class CollageData {
         String sql = "INSERT INTO collage (application_user_id, id, title)\n" +
                 "VALUES (?, ?, ?)";
         try {
-            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.setpStmt(db.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS));
 
             db.getpStmt().setInt(1, userId);
             db.getpStmt().setInt(2, 0);
             db.getpStmt().setString(3, in.getTitle());
 
-            db.getpStmt().executeUpdate();
+            in.setId(db.executeUpdateGetLastInsertedId());
 
         } catch (SQLException e) {
             logger.error("UNABLE TO CREATE COLLAGE", e);
@@ -71,31 +72,6 @@ public class CollageData {
         db.cleanUp();
 
         logger.debug("GET COLLAGE WITH ID {} END", collageId);
-        return collage;
-    }
-
-    public static Collage getMostRecentCollage() {
-        logger.debug("GET MOST RECENT COLLAGE START");
-        Collage collage = new Collage();
-
-        MySQL db = new MySQL();
-
-        String sql = "SELECT * FROM collage ORDER BY created DESC LIMIT 1";
-        try {
-            db.setpStmt(db.getConn().prepareStatement(sql));
-
-            db.setRs(db.getpStmt().executeQuery());
-
-            while (db.getRs().next()) {
-                collage = ObjectMapper.collage(db.getRs());
-            }
-
-        } catch (SQLException e) {
-            logger.error("UNABLE TO GET MOST RECENT COLLAGE");
-        }
-        db.cleanUp();
-
-        logger.debug("GET MOST RECENT COLLAGE END");
         return collage;
     }
 
@@ -169,6 +145,7 @@ public class CollageData {
             logger.error("UNABLE TO DELETE COLLAGE", e);
         }
         logger.debug("DELETE COLLAGE WITH ID {} END", collageId);
+        db.cleanUp();
     }
 
 }
