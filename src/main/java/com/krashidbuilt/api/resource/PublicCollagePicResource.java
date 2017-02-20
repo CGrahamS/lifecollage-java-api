@@ -1,7 +1,7 @@
 package com.krashidbuilt.api.resource;
 
-import com.krashidbuilt.api.data.CollageData;
 import com.krashidbuilt.api.data.CollagePicData;
+import com.krashidbuilt.api.data.PublicCollageData;
 import com.krashidbuilt.api.data.PublicCollagePicData;
 import com.krashidbuilt.api.model.Collage;
 import com.krashidbuilt.api.model.CollagePic;
@@ -41,7 +41,7 @@ public class PublicCollagePicResource {
     public Response getCollagePictures(@PathParam("collageId") int collageId) {
         logger.debug("Find most recent picture of collage with id {} at PublicCollagePicResource", collageId);
 
-        Collage collage = CollageData.getCollage(collageId);
+        Collage collage = PublicCollageData.getCollage(collageId);
         List<CollagePic> out;
 
         if (!collage.isValid()) {
@@ -71,7 +71,7 @@ public class PublicCollagePicResource {
     public Response getRecentPicture(@PathParam("collageId") int collageId) {
         logger.debug("Find most recent picture of collage with id {} at PublicCollagePicResource", collageId);
 
-        Collage collage = CollageData.getCollage(collageId);
+        Collage collage = PublicCollageData.getCollage(collageId);
         CollagePic out;
 
         if (!collage.isValid()) {

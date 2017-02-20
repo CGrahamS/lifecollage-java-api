@@ -1,6 +1,7 @@
 package com.krashidbuilt.api.resource;
 
 import com.krashidbuilt.api.data.CollageData;
+import com.krashidbuilt.api.data.PublicCollageData;
 import com.krashidbuilt.api.model.Authentication;
 import com.krashidbuilt.api.model.Collage;
 import com.krashidbuilt.api.model.Error;
@@ -74,7 +75,7 @@ public class CollageResource {
 
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
         logger.debug("Update collage with id {} title to {} requested by {} at collage resource", in.getId(), in.getTitle(), auth.getUserId());
-        Collage collage = CollageData.getCollage(in.getId());
+        Collage collage = PublicCollageData.getCollage(in.getId());
         Collage out;
 
         if (!collage.isValid()) {
@@ -112,7 +113,7 @@ public class CollageResource {
                                   @Context HttpServletRequest servletRequest) {
         Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
         logger.debug("Delete collage with id {} requested at collage resource", collageId);
-        Collage collage = CollageData.getCollage(collageId);
+        Collage collage = PublicCollageData.getCollage(collageId);
 
         if (!collage.isValid()) {
             logger.debug("CANNOT FIND COLLAGE");

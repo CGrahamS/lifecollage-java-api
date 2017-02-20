@@ -1,7 +1,7 @@
 package com.krashidbuilt.api.resource;
 
 import com.krashidbuilt.api.data.ApplicationUserData;
-import com.krashidbuilt.api.data.CollageData;
+import com.krashidbuilt.api.data.PublicCollageData;
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.Collage;
 import com.krashidbuilt.api.model.Error;
@@ -40,7 +40,7 @@ public class PublicCollageResource {
     @Consumes("application/json")
     public Response getCollage(@PathParam("collageId") int collageId, @Context UriInfo uriInfo) {
         logger.debug("Get collage by id {} requested at collage resource", collageId);
-        Collage collage = CollageData.getCollage(collageId);
+        Collage collage = PublicCollageData.getCollage(collageId);
 
         if (!collage.isValid()) {
             logger.debug("CANNOT FIND COLLAGE");
@@ -75,7 +75,7 @@ public class PublicCollageResource {
             return Response.status(error.getStatusCode()).entity(error).build();
         } else {
             logger.debug("Get collages that belong to user id {} requested at collage resource", userId);
-            collages = CollageData.getCollages(userId);
+            collages = PublicCollageData.getCollages(userId);
         }
 
         logger.debug("Collages that belong to user with id: {} found in the database", userId);
@@ -93,7 +93,7 @@ public class PublicCollageResource {
     @Consumes("application/json")
     public Response getAllCollages() {
         List<Collage> collages;
-        collages = CollageData.getCollages(0);
+        collages = PublicCollageData.getCollages(0);
 
         logger.debug("Get all collages");
         return Response.ok(collages).build();
