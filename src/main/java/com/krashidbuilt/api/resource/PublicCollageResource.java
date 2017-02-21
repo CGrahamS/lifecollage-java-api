@@ -4,6 +4,7 @@ import com.krashidbuilt.api.data.ApplicationUserData;
 import com.krashidbuilt.api.data.PublicCollageData;
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.Collage;
+import com.krashidbuilt.api.model.CollageLatestPic;
 import com.krashidbuilt.api.model.Error;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -79,6 +80,32 @@ public class PublicCollageResource {
         }
 
         logger.debug("Collages that belong to user with id: {} found in the database", userId);
+        return Response.ok(collages).build();
+    }
+
+    @GET()
+    @Path("/latestPic/{userId}")
+    @Produces("application/json")
+    @ApiOperation(value = "Retrieve collages with latest pic",
+        notes = "Return all collages that belong to a specific user and their most recent pic",
+        response = Collage.class,
+        responseContainer = "List"
+    )
+    @Consumes("application/json")
+    public Response getCollagesWithLatestPic(@PathParam("userId") int userId) {
+        ApplicationUser user = ApplicationUserData.getById(userId);
+        List<CollageLatestPic> collages;
+
+        if(!user.isValid()) {
+            logger.debug("CANNOT FIND USER");
+            Error error = Error.notFound("USER", userId);
+            return Response.status(error.getStatusCode()).entity(error).build();
+        } else {
+            logger.debug("Get collages and latest pic of each collage that belong to user id {} requested at collage resource", userId);
+            collages = PublicCollageData.getCollageLatestPic(userId);
+        }
+
+        logger.debug("Collages and latest pic that belong to user with id: {} found in the database", userId);
         return Response.ok(collages).build();
     }
 

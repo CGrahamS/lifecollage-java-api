@@ -75,6 +75,21 @@ public class ObjectMapper {
         return object;
     }
 
+    public static Collage latestCollage(ResultSet rs) throws SQLException {
+        Collage object = new Collage();
+
+        try {
+            object.setId(rs.getInt("collage_id"));
+            object.setTitle(rs.getString("collage_title"));
+            object.setCreated(rs.getString("collage_created"));
+            object.setUserId(rs.getInt("collage_application_user_id"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET COLLAGE FROM RESULT SET", ex);
+        }
+
+        return object;
+    }
+
     public static CollagePic collagePic(ResultSet rs) throws SQLException {
         CollagePic object = new CollagePic();
 
@@ -88,6 +103,20 @@ public class ObjectMapper {
 
         return object;
     }
+
+    public static CollagePic latestCollagePic(ResultSet rs) throws SQLException {
+        CollagePic object = new CollagePic();
+
+        try {
+            object.setId(rs.getInt("picture_id"));
+            object.setCollageId(rs.getInt("collage_id"));
+            object.setLocation(rs.getString("picture_location"));
+            object.setCreated(rs.getString("picture_created"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET PICTURE FROM RESULT SET", ex);
+        }
+        return object;
+     }
 
     public static ArrayList<Collage> collages(ResultSet rs) throws SQLException {
         Collage object = new Collage();

@@ -15,6 +15,7 @@ public class CollagePic implements Serializable {
     private int id;
     private int collageId;
     private String location;
+    private String created;
 
     public int getId() {
         return id;
@@ -38,6 +39,14 @@ public class CollagePic implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     public boolean isValid() {

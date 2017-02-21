@@ -56,8 +56,6 @@ public class PublicCollageData {
         if (userId >= 1) {
             sql.append("WHERE application_user_id = ?");
         }
-
-        String latestPicSql = "SELECT * FROM picture WHERE collage_id";
         try {
             db.setpStmt(db.getConn().prepareStatement(sql.toString()));
             if (userId >= 1) {
@@ -92,14 +90,13 @@ public class PublicCollageData {
                 "  c.application_user_id AS collage_application_user_id,  " +
                 "  " +
                 "  p.id                  AS picture_id,  " +
-                "  p.location            AS picture_title,  " +
+                "  p.location            AS picture_location,  " +
                 "  MAX(p.created)        AS picture_created  " +
                 "  " +
                 "FROM  " +
                 "  collage AS c  " +
                 "  LEFT JOIN picture AS p ON c.id = p.collage_id  " +
                 "  ");
-
 
         if (userId >= 1) {
             sql.append(" WHERE application_user_id = ? ");
@@ -110,7 +107,7 @@ public class PublicCollageData {
                 "  c.id  " +
                 "  " +
                 "ORDER BY  " +
-                "  picture_created DESC  ");
+                "  picture_created DESC");
 
         try {
             db.setpStmt(db.getConn().prepareStatement(sql.toString()));
@@ -121,8 +118,8 @@ public class PublicCollageData {
             db.setRs(db.getpStmt().executeQuery());
             while (db.getRs().next()) {
                 CollageLatestPic clp = new CollageLatestPic();
-                clp.setCollage(ObjectMapper.collage(db.getRs()));
-                clp.setCollagePic(ObjectMapper.collagePic(db.getRs()));
+                clp.setCollage(ObjectMapper.latestCollage(db.getRs()));
+                clp.setCollagePic(ObjectMapper.latestCollagePic(db.getRs()));
                 list.add(clp);
             }
 
