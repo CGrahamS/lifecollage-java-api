@@ -97,6 +97,38 @@ public class CollageResource {
         return Response.created(builder.build()).entity(out).build();
     }
 
+    @PUT()
+    @Path("updateOwner/{collageId}")
+    @Produces("application/json")
+    @ApiOperation(value = "Update existing collage",
+            notes = "Update owner of existing collage with id that matches the supplied id",
+            response = Collage.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "Collage not found", response = Error.class)
+    })
+    @Consumes("application/json")
+    public Response updateCollageOwner(@PathParam("collageId") int collageId, @Context UriInfo uriInfo, @Context HttpServletRequest servletRequest) {
+        Authentication auth = (Authentication) servletRequest.getAttribute("Auth");
+
+        logger.debug("Update owner of collage with id {} to owner with id {} requested at collage resource", collageId, auth.getUserId());
+
+        Collage collage = PublicCollageData.getCollage(collageId);
+        Collage out;
+
+        if(!collage.isValid()) {
+            logger.debug("CANNOT FIND COLLAGE");
+            Error error = Error.notFound("Collage", collageId);
+            return Response.status(error.getStatusCode()).entity(error).build();
+        }
+
+        out = CollageData.updateCollageOwner(collageId, auth.getUserId());
+
+        logger.debug("Update owner of single collage at updateOwner controller");
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        return Response.ok(builder.build()).entity(out).build();
+    }
+
     @DELETE()
     @Path("{collageId}")
     @Produces("application/json")

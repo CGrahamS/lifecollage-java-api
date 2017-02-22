@@ -89,4 +89,25 @@ public class CollageData {
         db.cleanUp();
     }
 
+    public static Collage updateCollageOwner(int collageId, int userId) {
+        logger.debug("UPDATE OWNER OF COLLAGE WITH ID {} START");
+        MySQL db = new MySQL();
+
+        String sql = "UPDATE collage SET application_user_id = ? WHERE id = ?";
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+
+            db.getpStmt().setInt(1, userId);
+            db.getpStmt().setInt(2, collageId);
+            db.getpStmt().executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO UPDATE COLLAGE OWNER", e);
+        }
+        logger.debug("UPDATE OWNER OF COLLAGE WITH ID {} END", collageId);
+        db.cleanUp();
+        return PublicCollageData.getCollage(collageId);
+    }
+
 }
