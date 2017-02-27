@@ -1,9 +1,9 @@
-package com.cgrahams.api.helpers;
+package com.krashidbuilt.api.helpers;
 
-import com.cgrahams.api.model.ApplicationUser;
-import com.cgrahams.api.model.Collage;
-import com.cgrahams.api.model.CollagePic;
-import com.cgrahams.api.model.PublicApplicationUser;
+import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.Collage;
+import com.krashidbuilt.api.model.CollagePic;
+import com.krashidbuilt.api.model.PublicApplicationUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

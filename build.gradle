@@ -11,8 +11,8 @@ apply plugin: 'checkstyle'
 
 
 group = 'com.krashidbuilt.template'
-version = '0.0.0'
-description = "KrashidBuilt - Gradle Java API"
+version = '1.0.0'
+description = "Do&Stevenson - Life Collage API"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -38,6 +38,7 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.21'
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     compile group: 'com.zaxxer', name: 'HikariCP', version: '2.4.7'
+
 
 
     // https://mvnrepository.com/artifact/net.sf.ehcache/ehcache

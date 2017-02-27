@@ -1,9 +1,9 @@
-package com.cgrahams.api.resource;
+package com.krashidbuilt.api.resource;
 
-import com.cgrahams.api.model.CollagePic;
-import com.cgrahams.api.data.CollagePicData;
-import com.cgrahams.api.model.Error;
-import com.cgrahams.api.model.ThrowableError;
+import com.krashidbuilt.api.data.CollagePicData;
+import com.krashidbuilt.api.model.CollagePic;
+import com.krashidbuilt.api.model.Error;
+import com.krashidbuilt.api.model.ThrowableError;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

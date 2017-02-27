@@ -1,7 +1,7 @@
-package com.cgrahams.api.helpers;
+package com.krashidbuilt.api.helpers;
 
 import com.google.gson.Gson;
-import com.cgrahams.api.model.Error;
+import com.krashidbuilt.api.model.Error;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

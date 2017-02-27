@@ -1,7 +1,7 @@
-package com.cgrahams.api.model;
+package com.krashidbuilt.api.model;
 
-import com.cgrahams.api.helpers.DateTime;
 import com.google.gson.Gson;
+import com.krashidbuilt.api.helpers.DateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

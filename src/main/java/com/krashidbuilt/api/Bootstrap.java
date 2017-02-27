@@ -1,4 +1,4 @@
-package com.cgrahams.api;
+package com.krashidbuilt.api;
 
 import io.swagger.jaxrs.config.SwaggerContextService;
 import io.swagger.models.ExternalDocs;
@@ -28,8 +28,8 @@ public class Bootstrap extends HttpServlet {
 
 
         Info info = new Info()
-                .title("KrashidBuilt - Template API")
-                .description("This is a template gradle java API written by KrashidBuilt.  "
+                .title("Do&Stevenson - Life Collage API")
+                .description("This java API was built on a template written by KrashidBuilt(https://krashidbuilt.com). "
                         + "\n##To authenticate against and interact with the API through this swagger doc:  "
                         + "\n1. Navigate to the [authentication](#!/authentication/login) section and use the login endpoint to generate an access token.  "
                         + "\n2. Copy the access token to your clip board.  "
@@ -37,9 +37,9 @@ public class Bootstrap extends HttpServlet {
                         + "\n4. Type in \"Bearer \" as the value and then paste in the access token after it.  "
                         + "\n5. Click authorize to embed the token in the Authorization header of each request.  ");
 
-
         Swagger swagger = new Swagger().info(info);
-        swagger.externalDocs(new ExternalDocs("Find out more about KrashidBuilt", "https://krashidbuilt.com"));
+        logger.info(swagger.getInfo().getTitle());
+        swagger.externalDocs(new ExternalDocs("Check out the Life Collage app!", "https://tinyurl.com/LifeCollage"));
 
         ApiKeyAuthDefinition apiKeyAuthDefinition = new ApiKeyAuthDefinition("Authorization", In.HEADER);
         swagger.securityDefinition("Authorization", apiKeyAuthDefinition);

@@ -1,4 +1,4 @@
-package com.cgrahams.api.model;
+package com.krashidbuilt.api.model;
 
 import com.google.gson.Gson;
 

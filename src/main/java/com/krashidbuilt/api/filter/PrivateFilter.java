@@ -1,10 +1,10 @@
-package com.cgrahams.api.filter;
+package com.krashidbuilt.api.filter;
 
-import com.cgrahams.api.data.AuthenticationData;
-import com.cgrahams.api.helpers.DateTime;
-import com.cgrahams.api.helpers.ErrorResponse;
-import com.cgrahams.api.model.Authentication;
-import com.cgrahams.api.model.ThrowableError;
+import com.krashidbuilt.api.data.AuthenticationData;
+import com.krashidbuilt.api.helpers.DateTime;
+import com.krashidbuilt.api.helpers.ErrorResponse;
+import com.krashidbuilt.api.model.Authentication;
+import com.krashidbuilt.api.model.ThrowableError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

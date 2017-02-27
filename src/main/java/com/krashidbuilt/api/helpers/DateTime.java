@@ -1,4 +1,4 @@
-package com.cgrahams.api.helpers;
+package com.krashidbuilt.api.helpers;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -1,8 +1,8 @@
-package com.cgrahams.api.data;
+package com.krashidbuilt.api.data;
 
-import com.cgrahams.api.model.Collage;
-import com.cgrahams.api.model.ThrowableError;
-import com.cgrahams.api.service.MySQL;
+import com.krashidbuilt.api.model.Collage;
+import com.krashidbuilt.api.model.ThrowableError;
+import com.krashidbuilt.api.service.MySQL;
 import com.mysql.jdbc.PreparedStatement;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;

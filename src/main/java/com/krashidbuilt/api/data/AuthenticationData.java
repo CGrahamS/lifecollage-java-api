@@ -1,13 +1,13 @@
-package com.cgrahams.api.data;
+package com.krashidbuilt.api.data;
 
-import com.cgrahams.api.model.*;
-import com.cgrahams.api.model.Error;
-import com.cgrahams.api.service.Encryption;
-import com.cgrahams.api.service.Settings;
-import com.cgrahams.api.helpers.DateTime;
-import com.cgrahams.api.helpers.ObjectMapper;
-import com.cgrahams.api.service.MySQL;
-import com.cgrahams.api.validation.CustomValidator;
+import com.krashidbuilt.api.helpers.DateTime;
+import com.krashidbuilt.api.helpers.ObjectMapper;
+import com.krashidbuilt.api.model.*;
+import com.krashidbuilt.api.model.Error;
+import com.krashidbuilt.api.service.Encryption;
+import com.krashidbuilt.api.service.MySQL;
+import com.krashidbuilt.api.service.Settings;
+import com.krashidbuilt.api.validation.CustomValidator;
 import io.jsonwebtoken.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
