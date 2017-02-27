@@ -1,10 +1,12 @@
-package com.krashidbuilt.api.data;
+package com.cgrahams.api.data;
 
-import com.krashidbuilt.api.helpers.ObjectMapper;
-import com.krashidbuilt.api.model.*;
-import com.krashidbuilt.api.model.Error;
-import com.krashidbuilt.api.service.Encryption;
-import com.krashidbuilt.api.service.MySQL;
+import com.cgrahams.api.model.ApplicationUser;
+import com.cgrahams.api.model.PublicApplicationUser;
+import com.cgrahams.api.model.ThrowableError;
+import com.cgrahams.api.service.Encryption;
+import com.cgrahams.api.helpers.ObjectMapper;
+import com.cgrahams.api.model.Error;
+import com.cgrahams.api.service.MySQL;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

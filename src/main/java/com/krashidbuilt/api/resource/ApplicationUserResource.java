@@ -1,9 +1,9 @@
-package com.krashidbuilt.api.resource;
+package com.cgrahams.api.resource;
 
-import com.krashidbuilt.api.data.ApplicationUserData;
-import com.krashidbuilt.api.model.ApplicationUser;
-import com.krashidbuilt.api.model.Authentication;
-import com.krashidbuilt.api.model.Error;
+import com.cgrahams.api.data.ApplicationUserData;
+import com.cgrahams.api.model.ApplicationUser;
+import com.cgrahams.api.model.Authentication;
+import com.cgrahams.api.model.Error;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

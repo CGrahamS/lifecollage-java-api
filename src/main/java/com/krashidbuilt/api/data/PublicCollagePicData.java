@@ -1,8 +1,8 @@
-package com.krashidbuilt.api.data;
+package com.cgrahams.api.data;
 
-import com.krashidbuilt.api.helpers.ObjectMapper;
-import com.krashidbuilt.api.model.CollagePic;
-import com.krashidbuilt.api.service.MySQL;
+import com.cgrahams.api.model.CollagePic;
+import com.cgrahams.api.helpers.ObjectMapper;
+import com.cgrahams.api.service.MySQL;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

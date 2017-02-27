@@ -1,10 +1,10 @@
-package com.krashidbuilt.api.resource;
+package com.cgrahams.api.resource;
 
-import com.krashidbuilt.api.data.ApplicationUserData;
-import com.krashidbuilt.api.data.AuthenticationData;
-import com.krashidbuilt.api.data.CollageData;
-import com.krashidbuilt.api.model.*;
-import com.krashidbuilt.api.model.Error;
+import com.cgrahams.api.data.ApplicationUserData;
+import com.cgrahams.api.data.AuthenticationData;
+import com.cgrahams.api.data.CollageData;
+import com.cgrahams.api.model.*;
+import com.cgrahams.api.model.Error;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -15,8 +15,6 @@ import org.apache.logging.log4j.Logger;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-
-import static com.krashidbuilt.api.data.AuthenticationData.TokenType;
 
 @Path("public/auth")
 @Api(value = "public/auth", description = "Authenticate a user", tags = "authentication")
@@ -65,7 +63,7 @@ public class AuthenticationResource {
 
         Authentication auth = new Authentication();
         try {
-            auth = AuthenticationData.parseToken(refreshToken, TokenType.REFRESH);
+            auth = AuthenticationData.parseToken(refreshToken, AuthenticationData.TokenType.REFRESH);
         } catch (Exception ex) {
             logger.error("UNABLE TO GET USER FROM REFRESH TOKEN", ex);
         } catch (ThrowableError throwableError) {

@@ -1,11 +1,11 @@
-package com.krashidbuilt.api.resource;
+package com.cgrahams.api.resource;
 
-import com.krashidbuilt.api.data.CollagePicData;
-import com.krashidbuilt.api.data.PublicCollageData;
-import com.krashidbuilt.api.data.PublicCollagePicData;
-import com.krashidbuilt.api.model.Collage;
-import com.krashidbuilt.api.model.CollagePic;
-import com.krashidbuilt.api.model.Error;
+import com.cgrahams.api.model.Collage;
+import com.cgrahams.api.model.CollagePic;
+import com.cgrahams.api.model.Error;
+import com.cgrahams.api.data.CollagePicData;
+import com.cgrahams.api.data.PublicCollageData;
+import com.cgrahams.api.data.PublicCollagePicData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

@@ -1,7 +1,7 @@
-package com.krashidbuilt.api.integration;
+package com.cgrahams.api.integration;
 
-import com.krashidbuilt.api.model.ThrowableError;
-import com.krashidbuilt.api.service.Settings;
+import com.cgrahams.api.service.Settings;
+import com.cgrahams.api.model.ThrowableError;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;

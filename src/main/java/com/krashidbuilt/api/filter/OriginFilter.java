@@ -1,7 +1,7 @@
-package com.krashidbuilt.api.filter;
+package com.cgrahams.api.filter;
 
-import com.krashidbuilt.api.helpers.DateTime;
-import com.krashidbuilt.api.helpers.ErrorResponse;
+import com.cgrahams.api.helpers.ErrorResponse;
+import com.cgrahams.api.helpers.DateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

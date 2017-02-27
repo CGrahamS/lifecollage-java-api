@@ -1,4 +1,4 @@
-package com.krashidbuilt.api.helpers;
+package com.cgrahams.api.helpers;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;

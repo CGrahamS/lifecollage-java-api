@@ -1,7 +1,7 @@
-package com.krashidbuilt.api.validation;
+package com.cgrahams.api.validation;
 
 
-import com.krashidbuilt.api.service.Settings;
+import com.cgrahams.api.service.Settings;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.commons.validator.routines.EmailValidator;

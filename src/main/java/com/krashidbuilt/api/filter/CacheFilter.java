@@ -1,9 +1,9 @@
-package com.krashidbuilt.api.filter;
+package com.cgrahams.api.filter;
 
-import com.krashidbuilt.api.helpers.DateTime;
-import com.krashidbuilt.api.helpers.ETagResponseWrapper;
-import com.krashidbuilt.api.helpers.ErrorResponse;
-import com.krashidbuilt.api.service.CacheService;
+import com.cgrahams.api.helpers.DateTime;
+import com.cgrahams.api.helpers.ETagResponseWrapper;
+import com.cgrahams.api.helpers.ErrorResponse;
+import com.cgrahams.api.service.CacheService;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

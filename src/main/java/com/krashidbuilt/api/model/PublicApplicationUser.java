@@ -1,4 +1,4 @@
-package com.krashidbuilt.api.model;
+package com.cgrahams.api.model;
 
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiModel;

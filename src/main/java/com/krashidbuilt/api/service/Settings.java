@@ -1,4 +1,4 @@
-package com.krashidbuilt.api.service;
+package com.cgrahams.api.service;
 
 import com.netflix.config.ConfigurationManager;
 import com.netflix.config.DynamicPropertyFactory;

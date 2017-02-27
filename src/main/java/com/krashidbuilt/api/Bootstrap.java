@@ -1,4 +1,4 @@
-package com.krashidbuilt.api;
+package com.cgrahams.api;
 
 import io.swagger.jaxrs.config.SwaggerContextService;
 import io.swagger.models.ExternalDocs;

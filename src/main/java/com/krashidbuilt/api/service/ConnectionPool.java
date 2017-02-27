@@ -1,4 +1,4 @@
-package com.krashidbuilt.api.service;
+package com.cgrahams.api.service;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,8 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.sql.DataSource;
-
-import static com.krashidbuilt.api.service.Settings.getStringSetting;
 
 /**
  * Created by Ben Kauffman on 10/5/2016.
@@ -22,9 +20,9 @@ public class ConnectionPool implements Runnable {
             logger.debug("CREATE NEW CONNECTION POOL");
             HikariConfig config = new HikariConfig();
 
-            config.setJdbcUrl(getStringSetting("sql.connection"));
-            config.setUsername(getStringSetting("sql.user"));
-            config.setPassword(getStringSetting("sql.pass"));
+            config.setJdbcUrl(Settings.getStringSetting("sql.connection"));
+            config.setUsername(Settings.getStringSetting("sql.user"));
+            config.setPassword(Settings.getStringSetting("sql.pass"));
 
             // pool efficiency formula
             // ((cpu core count * 2) + effective spindle count)
