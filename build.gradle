@@ -10,7 +10,7 @@ apply plugin: 'checkstyle'
 
 
 
-group = 'com.krashidbuilt.template'
+group = 'com.krashid.template'
 version = '1.0.0'
 description = "Do&Stevenson - Life Collage API"
 
@@ -105,7 +105,7 @@ task jettyDaemon() {
 jettyRun {
 
     System.setProperty('log4j.configurationFile', 'log4j2-local.xml')
-    System.setProperty('archaius.deployment.applicationId', 'krashidbuilt.api')
+    System.setProperty('archaius.deployment.applicationId', 'krashid.api')
     System.setProperty('archaius.deployment.region', 'us-west-2')
     System.setProperty('archaius.deployment.version', version)
     System.setProperty('test.integration', 'false')
@@ -183,8 +183,8 @@ cobertura {
     coverageFormats = ['html', 'xml']
     coverageIgnoreTrivial = false //getters and setters
     coverageExcludes = [
-            '.*com.krashidbuilt.api.server.*',
-            '.*com.krashidbuilt.api.resource.*'
+            '.*com.krashid.api.server.*',
+            '.*com.krashid.api.resource.*'
     ]
 
     //line coverage
