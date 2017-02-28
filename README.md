@@ -5,6 +5,8 @@ Lifecollage API Java Jetty Gradle Microservice
 
 This is a simple REST api to interact with user data through CRUD
 
+Check out [Life Collage](https://tinyurl.com/LifeCollage) in the Google Play Store!
+
 Running the webservice
 ---------------------- 
 If you're going to launch the application via the commandline...  
