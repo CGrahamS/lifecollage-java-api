@@ -10,9 +10,9 @@ apply plugin: 'checkstyle'
 
 
 
-group = 'com.krashidbuilt.template'
-version = '0.0.0'
-description = "KrashidBuilt - Gradle Java API"
+group = 'com.krashid.template'
+version = '1.0.0'
+description = "Do&Stevenson - Life Collage API"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -38,6 +38,7 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.21'
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     compile group: 'com.zaxxer', name: 'HikariCP', version: '2.4.7'
+
 
 
     // https://mvnrepository.com/artifact/net.sf.ehcache/ehcache
@@ -104,7 +105,7 @@ task jettyDaemon() {
 jettyRun {
 
     System.setProperty('log4j.configurationFile', 'log4j2-local.xml')
-    System.setProperty('archaius.deployment.applicationId', 'krashidbuilt.api')
+    System.setProperty('archaius.deployment.applicationId', 'krashid.api')
     System.setProperty('archaius.deployment.region', 'us-west-2')
     System.setProperty('archaius.deployment.version', version)
     System.setProperty('test.integration', 'false')
@@ -182,8 +183,8 @@ cobertura {
     coverageFormats = ['html', 'xml']
     coverageIgnoreTrivial = false //getters and setters
     coverageExcludes = [
-            '.*com.krashidbuilt.api.server.*',
-            '.*com.krashidbuilt.api.resource.*'
+            '.*com.krashid.api.server.*',
+            '.*com.krashid.api.resource.*'
     ]
 
     //line coverage

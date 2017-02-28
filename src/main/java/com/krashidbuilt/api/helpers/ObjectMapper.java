@@ -2,6 +2,8 @@ package com.krashidbuilt.api.helpers;
 
 import com.krashidbuilt.api.model.ApplicationUser;
 import com.krashidbuilt.api.model.Collage;
+import com.krashidbuilt.api.model.CollagePic;
+import com.krashidbuilt.api.model.PublicApplicationUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +21,22 @@ public class ObjectMapper {
 
     private static Logger logger = LogManager.getLogger();
 
+
+    public static PublicApplicationUser publicApplicationUser(ResultSet rs) throws SQLException {
+        PublicApplicationUser object = new PublicApplicationUser();
+
+        try {
+            object.setId(rs.getInt("id"));
+            object.setFirstName(rs.getString("first_name"));
+            object.setLastName(rs.getString("last_name"));
+            object.setUsername(rs.getString("username"));
+
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET PUBLIC APPLICATION USER FROM THE RESULT SET ", ex);
+        }
+
+        return object;
+    }
 
     public static ApplicationUser applicationUser(ResultSet rs) throws SQLException {
         ApplicationUser object = new ApplicationUser();
@@ -56,6 +74,49 @@ public class ObjectMapper {
 
         return object;
     }
+
+    public static Collage latestCollage(ResultSet rs) throws SQLException {
+        Collage object = new Collage();
+
+        try {
+            object.setId(rs.getInt("collage_id"));
+            object.setTitle(rs.getString("collage_title"));
+            object.setCreated(rs.getString("collage_created"));
+            object.setUserId(rs.getInt("collage_application_user_id"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET COLLAGE FROM RESULT SET", ex);
+        }
+
+        return object;
+    }
+
+    public static CollagePic collagePic(ResultSet rs) throws SQLException {
+        CollagePic object = new CollagePic();
+
+        try {
+            object.setId(rs.getInt("id"));
+            object.setCollageId(rs.getInt("collage_id"));
+            object.setLocation(rs.getString("location"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET PICTURE FROM RESULT SET", ex);
+        }
+
+        return object;
+    }
+
+    public static CollagePic latestCollagePic(ResultSet rs) throws SQLException {
+        CollagePic object = new CollagePic();
+
+        try {
+            object.setId(rs.getInt("picture_id"));
+            object.setCollageId(rs.getInt("collage_id"));
+            object.setLocation(rs.getString("picture_location"));
+            object.setCreated(rs.getString("picture_created"));
+        } catch (SQLException ex) {
+            logger.error("UNABLE TO GET PICTURE FROM RESULT SET", ex);
+        }
+        return object;
+     }
 
     public static ArrayList<Collage> collages(ResultSet rs) throws SQLException {
         Collage object = new Collage();

@@ -1,15 +1,14 @@
 package com.krashidbuilt.api.data;
 
-import com.krashidbuilt.api.helpers.ObjectMapper;
 import com.krashidbuilt.api.model.Collage;
 import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.MySQL;
+import com.mysql.jdbc.PreparedStatement;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
-import java.util.*;
 
 /**
  * Created by CGrahamS on 2/3/17.
@@ -28,13 +27,13 @@ public class CollageData {
         String sql = "INSERT INTO collage (application_user_id, id, title)\n" +
                 "VALUES (?, ?, ?)";
         try {
-            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.setpStmt(db.getConn().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS));
 
             db.getpStmt().setInt(1, userId);
             db.getpStmt().setInt(2, 0);
             db.getpStmt().setString(3, in.getTitle());
 
-            db.getpStmt().executeUpdate();
+            in.setId(db.executeUpdateGetLastInsertedId());
 
         } catch (SQLException e) {
             logger.error("UNABLE TO CREATE COLLAGE", e);
@@ -45,61 +44,6 @@ public class CollageData {
         logger.debug("CREATE COLLAGE END");
 
         return in;
-    }
-
-    public static Collage getCollage(int collageId) {
-        logger.debug("GET COLLAGE WITH ID {} START", collageId);
-        Collage collage = new Collage();
-
-        MySQL db = new MySQL();
-
-        String sql = "SELECT * FROM collage WHERE id = ? LIMIT 1";
-        try {
-            db.setpStmt(db.getConn().prepareStatement(sql));
-            db.getpStmt().setInt(1, collageId);
-
-            db.setRs(db.getpStmt().executeQuery());
-
-            while (db.getRs().next()) {
-                collage = ObjectMapper.collage(db.getRs());
-            }
-
-        } catch (SQLException e) {
-            logger.error("UNABLE TO GET COLLAGE BY ID");
-        }
-        db.cleanUp();
-
-        logger.debug("GET COLLAGE WITH ID {} END", collageId);
-        return collage;
-    }
-
-    public static List<HashMap<String, Object>> getCollages(int userId) {
-        logger.debug("GET COLLAGES BY USER ID {} START", userId);
-        List<HashMap<String, Object>> collages = new ArrayList<>();
-
-        MySQL db = new MySQL();
-
-        StringBuilder sql = new StringBuilder().append("SELECT * FROM collage ");
-        if (userId >= 1) {
-            sql.append("WHERE application_user_id = ?");
-        }
-        try {
-            db.setpStmt(db.getConn().prepareStatement(sql.toString()));
-            if (userId >= 1) {
-                db.getpStmt().setInt(1, userId);
-            }
-
-            db.setRs(db.getpStmt().executeQuery());
-
-            collages = ObjectMapper.convertResultSetToList(db.getRs());
-
-        } catch (SQLException e) {
-            logger.error("UNABLE TO GET COLLAGE BY USER ID");
-        }
-        db.cleanUp();
-
-        logger.debug("GET COLLAGE BY USER ID {} END", userId);
-        return collages;
     }
 
     public static Collage updateCollageTitle(Collage in) {
@@ -122,7 +66,7 @@ public class CollageData {
         db.cleanUp();
 
         logger.debug("UPDATE COLLAGE WITH ID {} END", in.getId());
-        return getCollage(in.getId());
+        return PublicCollageData.getCollage(in.getId());
     }
 
     public static void deleteCollage(int collageId) {
@@ -142,6 +86,28 @@ public class CollageData {
             logger.error("UNABLE TO DELETE COLLAGE", e);
         }
         logger.debug("DELETE COLLAGE WITH ID {} END", collageId);
+        db.cleanUp();
+    }
+
+    public static Collage updateCollageOwner(int collageId, int userId) {
+        logger.debug("UPDATE OWNER OF COLLAGE WITH ID {} START");
+        MySQL db = new MySQL();
+
+        String sql = "UPDATE collage SET application_user_id = ? WHERE id = ?";
+
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+
+            db.getpStmt().setInt(1, userId);
+            db.getpStmt().setInt(2, collageId);
+            db.getpStmt().executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO UPDATE COLLAGE OWNER", e);
+        }
+        logger.debug("UPDATE OWNER OF COLLAGE WITH ID {} END", collageId);
+        db.cleanUp();
+        return PublicCollageData.getCollage(collageId);
     }
 
 }

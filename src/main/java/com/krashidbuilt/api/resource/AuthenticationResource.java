@@ -2,6 +2,7 @@ package com.krashidbuilt.api.resource;
 
 import com.krashidbuilt.api.data.ApplicationUserData;
 import com.krashidbuilt.api.data.AuthenticationData;
+import com.krashidbuilt.api.data.CollageData;
 import com.krashidbuilt.api.model.*;
 import com.krashidbuilt.api.model.Error;
 import io.swagger.annotations.Api;
@@ -105,15 +106,20 @@ public class AuthenticationResource {
     @Consumes("application/json")
     public Response register(ApplicationUser in, @Context UriInfo uriInfo) {
 
+        Collage collage = new Collage();
+
         ApplicationUser out;
         //check to see if user object passes validation
         try {
             out = ApplicationUserData.create(in);
+            collage.setTitle("My First Collage!");
+            CollageData.create(out.getId(), collage);
         } catch (ThrowableError ex) {
             logger.debug("CAN'T REGISTER USER {} {}", in.getEmail(), ex.getError().getDevMessage());
             Error error = ex.getError();
             return Response.status(error.getStatusCode()).entity(error).build();
         }
+
         //return newly created user
         logger.debug("Create single application user object at register controller." + out.toString());
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();

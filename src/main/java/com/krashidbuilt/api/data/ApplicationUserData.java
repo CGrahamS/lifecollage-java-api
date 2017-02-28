@@ -1,9 +1,8 @@
 package com.krashidbuilt.api.data;
 
 import com.krashidbuilt.api.helpers.ObjectMapper;
-import com.krashidbuilt.api.model.ApplicationUser;
+import com.krashidbuilt.api.model.*;
 import com.krashidbuilt.api.model.Error;
-import com.krashidbuilt.api.model.ThrowableError;
 import com.krashidbuilt.api.service.Encryption;
 import com.krashidbuilt.api.service.MySQL;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -13,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ben Kauffman on 1/15/2017.
@@ -56,7 +57,7 @@ public final class ApplicationUserData {
 
         logger.debug("CREATE USER END");
 
-        return getByEmail(in.getEmail());
+        return AuthenticationData.login(in.getEmail(), in.getPassword());
     }
 
     public static ApplicationUser update(ApplicationUser in) {
@@ -126,6 +127,32 @@ public final class ApplicationUserData {
 
         logger.debug("GET USER {} BY ID END", userId);
         return user;
+    }
+
+    public static List<PublicApplicationUser> getByUsername(String queryString) {
+        logger.debug("GET USER WITH USERNAME MATCHING QUERY STRING {}", queryString);
+        List<PublicApplicationUser> users = new ArrayList<>();
+        MySQL db = new MySQL();
+
+        String sql = "SELECT * FROM application_user WHERE username LIKE ?";
+        try {
+            db.setpStmt(db.getConn().prepareStatement(sql));
+            db.getpStmt().setString(1, "%" + queryString + "%");
+
+            db.setRs(db.getpStmt().executeQuery());
+            while (db.getRs().next()){
+                users.add(ObjectMapper.publicApplicationUser(db.getRs()));
+            }
+
+
+        } catch (SQLException e) {
+            logger.error("UNABLE TO GET USERS MATCHING QUERY STRING", e);
+        }
+
+        db.cleanUp();
+
+        logger.debug("GET USER WITH USERNAME MATCHING QUERY STRING {} END", queryString);
+        return users;
     }
 
     public static ApplicationUser getByEmail(String email) {
