@@ -30,4 +30,4 @@ The open resource is http://localhost:8080/api/public/
 
 Settings & Configurations
 -------------------------
-I've included [Netflix Archaius](https://github.com/Netflix/archaius/wiki/Users-Guide) to manage environment settings & configurations  
+ Krashid included [Netflix Archaius](https://github.com/Netflix/archaius/wiki/Users-Guide) to manage environment settings & configurations  
